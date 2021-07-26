@@ -51,7 +51,7 @@ namespace StockInvestments.API.Controllers
         /// <param name="ticker"></param>
         /// <returns>SoldPositionsForCurrentPosition</returns>
         /// <response code="200">Returns SoldPositions list</response>
-        /// <response code="404">If the Current Position couldn't be found</response>
+        /// <response code="404">If the current position couldn't be found</response>
         //Get api/currentPositions/xxx/soldPositions
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
