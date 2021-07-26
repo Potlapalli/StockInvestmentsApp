@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StockInvestments.API</name>
+    </assembly>
+    <members>
+        <member name="T:StockInvestments.API.Controllers.CurrentPositionsController">
+            <summary>
+            CurrentPositionsController
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.CreateCurrentPosition(StockInvestments.API.Models.CurrentPositionForCreationDto)">
+            <summary>
+            Creates a CurrentPosition
+            </summary>
+            <param name="currentPosition"></param>
+            <returns>A newly created CurrentPosition</returns>
+            <response code="201">Returns the newly created CurrentPosition</response>
+            <response code="400">If the CurrentPosition is null</response>
+        </member>
+        <member name="T:StockInvestments.API.Services.SoldPositionsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Services.SoldPositionsRepository.#ctor(StockInvestments.API.DbContexts.StockInvestmentsContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>
