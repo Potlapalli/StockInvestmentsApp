@@ -13,6 +13,7 @@ namespace StockInvestments.API.Profiles
             CreateMap<Entities.CurrentPosition, Models.CurrentPositionDto>();
             CreateMap<Models.CurrentPositionForCreationDto, Entities.CurrentPosition>();
             CreateMap<Models.CurrentPositionForUpdateDto, Entities.CurrentPosition>();
+            CreateMap<Entities.CurrentPosition, Models.CurrentPositionForUpdateDto>();
         }
     }
 }

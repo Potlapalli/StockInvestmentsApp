@@ -39,7 +39,10 @@ namespace StockInvestments.API
             services.AddControllers(setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;
-            })
+            }).AddNewtonsoftJson(setupAction =>
+                {
+                    setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
                 .AddXmlDataContractSerializerFormatters()
                 .ConfigureApiBehaviorOptions(setupAction =>
                 {
@@ -98,7 +101,7 @@ namespace StockInvestments.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddDbContext<StockInvestmentsContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionString:StockInvestmentsDB"]));
+                options.UseSqlServer(Configuration["ConnectionString:StockInvestmentsDB"])/*.EnableSensitiveDataLogging()*/);
 
             services.AddScoped<ICurrentPositionsRepository, CurrentPositionsRepository>();
 

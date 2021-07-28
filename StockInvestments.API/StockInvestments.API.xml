@@ -4,10 +4,290 @@
         <name>StockInvestments.API</name>
     </assembly>
     <members>
+        <member name="T:StockInvestments.API.Contracts.IClosedPositionsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IClosedPositionsRepository.GetClosedPositions">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IClosedPositionsRepository.GetClosedPositionsFilteredByFinalValue(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IClosedPositionsRepository.GetClosedPosition(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Contracts.ICurrentPositionsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ICurrentPositionsRepository.GetCurrentPositions">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ICurrentPositionsRepository.GetCurrentPositions(System.Collections.Generic.List{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="tickers"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ICurrentPositionsRepository.GetCurrentPositionsFilteredByTotalAmount(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="amount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ICurrentPositionsRepository.GetCurrentPosition(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ICurrentPositionsRepository.CurrentPositionExists(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Contracts.IRepositoryBase`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IRepositoryBase`1.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IRepositoryBase`1.Update(`0)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IRepositoryBase`1.Delete(`0)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IRepositoryBase`1.Save">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Contracts.ISoldPositionsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetSoldPositions">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetSoldPositions(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetPositionsInProfit(System.Collections.Generic.List{StockInvestments.API.Entities.CurrentPosition})">
+            <summary>
+            
+            </summary>
+            <param name="currentPositions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetSharesRemaining(StockInvestments.API.Entities.CurrentPosition)">
+            <summary>
+            
+            </summary>
+            <param name="currentPosition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetSoldPositionsTotalAmount(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetSoldPositionsFilteredByTotalAmount(System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="amount"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.GetSoldPosition(System.String,System.Int64)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.ISoldPositionsRepository.Add(System.String,StockInvestments.API.Entities.SoldPosition)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <param name="soldPosition"></param>
+        </member>
+        <member name="T:StockInvestments.API.Contracts.IStockEarningsRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IStockEarningsRepository.GetStockEarnings">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IStockEarningsRepository.GetStockEarningsFilteredByDate(System.DateTimeOffset)">
+            <summary>
+            
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Contracts.IStockEarningsRepository.GetStockEarning(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Controllers.ClosedPositionsController">
+            <summary>
+            ClosedPositionsController
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.ClosedPositionsController.#ctor(StockInvestments.API.Contracts.IClosedPositionsRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="closedPositionsRepository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.ClosedPositionsController.GetClosedPositions">
+            <summary>
+            GetClosedPositions
+            </summary>
+            <returns>ClosedPositions</returns>
+            <response code="200">Returns list of closed positions</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.ClosedPositionsController.GetClosedPositionsFilteredByFinalValue(System.Double)">
+            <summary>
+            GetClosedPositionsFilteredByFinalValue
+            </summary>
+            <param name="value"></param>
+            <returns>ClosedPositionsFilteredByFinalValue</returns>
+            <response code="200">Returns list of ClosedPositions filtered by final value</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.ClosedPositionsController.GetClosedPosition(System.String)">
+            <summary>
+            GetClosedPosition
+            </summary>
+            <param name="ticker"></param>
+            <returns>ClosedPosition</returns>
+            <response code="200">Returns the specific closed position</response>
+            <response code="400">If the ticker is invalid</response>
+            <response code="404">If the Closed Position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.ClosedPositionsController.CreateClosedPosition(StockInvestments.API.Models.ClosedPositionForCreationDto)">
+            <summary>
+            CreateClosedPosition
+            </summary>
+            <param name="closedPosition"></param>
+            <returns>Newly created ClosedPosition</returns>
+             <response code="201">New closed position created</response>
+            <response code="400">If the closed position is null</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.ClosedPositionsController.UpdateClosedPosition(System.String,StockInvestments.API.Models.ClosedPositionForUpdateDto)">
+            <summary>
+            UpdateClosedPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="closedPosition"></param>
+            <returns></returns>
+            <response code="204">If the closed position is updated</response>
+            <response code="400">If the ticker is invalid</response>
+            <response code="404">If the Closed Position is not found</response>
+        </member>
         <member name="T:StockInvestments.API.Controllers.CurrentPositionsController">
             <summary>
             CurrentPositionsController
             </summary>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="currentPositionsRepository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPositions">
+            <summary>
+            Get Current Positions
+            </summary>
+            <returns>All CurrentPositions</returns>
+            <response code="200">Returns CurrentPositions list</response>
+            
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPositionsFilteredByTotalAmount(System.Double)">
+            <summary>
+            GetCurrentPositionsFilteredByTotalAmount
+            </summary>
+            <param name="totalAmountGreaterThan"></param>
+            <returns>CurrentPositionsFilteredByTotalAmount</returns>
+            <response code="200">Returns list of CurrentPositions filtered by total amount</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPosition(System.String)">
+            <summary>
+            GetCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <returns>CurrentPosition</returns>
+            <response code="200">Returns the specific current position</response>
+            <response code="400">If the ticker is invalid</response>
+            <response code="404">If the Current Position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPositionCollection(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            GetCurrentPositionCollection
+            </summary>
+            <param name="tickers"></param>
+            <returns>CurrentPositionCollection based on the tickers specified</returns>
+            <response code="200">Returns the CurrentPositionCollection</response>
+            <response code="400">If the ticker are invalid</response>
+            <response code="404">If the Current Positions are not found</response>
         </member>
         <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.CreateCurrentPosition(StockInvestments.API.Models.CurrentPositionForCreationDto)">
             <summary>
@@ -17,6 +297,668 @@
             <returns>A newly created CurrentPosition</returns>
             <response code="201">Returns the newly created CurrentPosition</response>
             <response code="400">If the CurrentPosition is null</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.CreateCurrentPositionCollection(System.Collections.Generic.IEnumerable{StockInvestments.API.Models.CurrentPositionForCreationDto})">
+            <summary>
+            CreateCurrentPositionCollection
+            </summary>
+            <param name="currentPositionCollection"></param>
+            <returns>CurrentPositionCollection</returns>
+            <response code="201">Returns the newly created CurrentPositions</response>
+            <response code="400">If the CurrentPosition is null</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPositionsOptions">
+            <summary>
+            GetCurrentPositionsOptions
+            </summary>
+            <returns>CurrentPositionsOptions</returns>
+            <response code="200">Http verbs supported</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.UpdateCurrentPosition(System.String,StockInvestments.API.Models.CurrentPositionForUpdateDto)">
+            <summary>
+            UpdateCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="currentPosition"></param>
+            <returns></returns>
+            <response code="204">If the current position is updated</response>
+            <response code="400">If the ticker are invalid</response>
+            <response code="404">If the Current Positions are not found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.PartiallyUpdateCurrentPosition(System.String,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{StockInvestments.API.Models.CurrentPositionForUpdateDto})">
+            <summary>
+            PartiallyUpdateCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+            <response code="204">If the current position is updated</response>
+            <response code="400">If the ticker are invalid</response>
+            <response code="404">If the Current Positions are not found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.DeleteCurrentPosition(System.String)">
+            <summary>
+            DeleteCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+            <response code="204">If the current position is deleted</response>
+            <response code="400">If the ticker are invalid</response>
+            <response code="404">If the Current Positions are not found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.ValidationProblem(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            
+            </summary>
+            <param name="modelStateDictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Controllers.SoldPositionsController">
+            <summary>
+            SoldPositionsController
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,StockInvestments.API.Contracts.ISoldPositionsRepository,StockInvestments.API.Contracts.IClosedPositionsRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="currentPositionsRepository"></param>
+            <param name="soldPositionsRepository"></param>
+            <param name="closedPositionsRepository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.GetSoldPositionsForCurrentPosition(System.String)">
+            <summary>
+            GetSoldPositionsForCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <returns>SoldPositionsForCurrentPosition</returns>
+            <response code="200">Returns SoldPositions list</response>
+            <response code="404">If the current position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.GetSoldPositions">
+            <summary>
+            GetSoldPositions
+            </summary>
+            <returns>All SoldPositions</returns>
+            <response code="200">Returns SoldPositions list</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.GetSharesRemaining(System.String)">
+            <summary>
+            GetSharesRemaining
+            </summary>
+            <param name="ticker"></param>
+            <returns>SharesRemaining</returns>
+            <response code="200">Returns Shares remaining</response>
+            <response code="404">If the Current Position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.GetPositionsInProfit">
+            <summary>
+            GetPositionsInProfit
+            </summary>
+            <returns>PositionsInProfit</returns>
+            <response code="200">Returns PositionsInProfit</response>      
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.GetSoldPositionsFilteredByTotalAmount(System.Double)">
+            <summary>
+            GetSoldPositionsFilteredByTotalAmount
+            </summary>
+            <param name="totalAmountGreaterThan"></param>
+            <returns>SoldPositionsFilteredByTotalAmount</returns>
+            <response code="200">Returns SoldPositionsFilteredByTotalAmount</response> 
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.GetSoldPositionForCurrentPosition(System.String,System.Int64)">
+            <summary>
+            GetSoldPositionForCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="number"></param>
+            <returns>SoldPositionForCurrentPosition</returns>
+            <response code="200">Returns the specific sold position</response>
+            <response code="404">If the Current Position or sold position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.CreateSoldPosition(System.String,StockInvestments.API.Models.SoldPositionForCreationDto)">
+            <summary>
+            CreateSoldPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="soldPosition"></param>
+            <returns>Newly cretaed SoldPosition</returns>
+            <response code="201">Returns the newly added sold position</response>
+            <response code="404">If the current position is not found</response>
+            <response code="204">If the Current Position is deleted</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.UpdateSoldPositionForCurrentPosition(System.String,System.Int64,StockInvestments.API.Models.SoldPositionForUpdateDto)">
+            <summary>
+            UpdateSoldPositionForCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="number"></param>
+            <param name="soldPosition"></param>
+            <returns></returns>
+            <response code="204">If the sold position is updated</response>
+            <response code="404">If the Current Position or sold position couldn't be found</response>
+            <response code="201">If the sold position is created</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.PartiallyUpdateSoldPositionForCurrentPosition(System.String,System.Int64,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{StockInvestments.API.Models.SoldPositionForUpdateDto})">
+            <summary>
+            PartiallyUpdateSoldPositionForCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="number"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+            <response code="204">If the sold position is updated</response>
+            <response code="404">If the Current Position or sold position couldn't be found</response>
+            <response code="201">If the sold position is created</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.DeleteSoldPositionForCurrentPosition(System.String,System.Int64)">
+            <summary>
+            DeleteSoldPositionForCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <param name="number"></param>
+            <returns></returns>
+            <response code="204">If the sold position is delted</response>
+            <response code="404">If the Current Position or sold position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.DeleteSoldPositionsForCurrentPosition(System.String)">
+            <summary>
+            DeleteSoldPositionsForCurrentPosition
+            </summary>
+            <param name="ticker"></param>
+            <returns></returns>
+            <response code="204">If the sold positions are deleted</response>
+            <response code="404">If the Current Position or sold position couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.AddClosedPositionBasedOnTotalShares(System.String,StockInvestments.API.Entities.SoldPosition)">
+            <summary>
+            ProcessUpdateBasedOnTotalShares
+            </summary>
+            <param name="ticker"></param>
+            <param name="soldPositionEntity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.ValidationProblem(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+            <summary>
+            
+            </summary>
+            <param name="modelStateDictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Controllers.StockEarningsController">
+            <summary>
+            StockEarningsController
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.StockEarningsController.#ctor(StockInvestments.API.Contracts.IStockEarningsRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="stockEarningsRepository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.StockEarningsController.GetStockEarnings">
+            <summary>
+            GetStockEarnings
+            </summary>
+            <returns>StockEarnings</returns>
+            <response code="200">Returns list of stock earnings</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.StockEarningsController.GetStockEarningsFilteredByDate(System.DateTimeOffset)">
+            <summary>
+            GetStockEarningsFilteredByDate
+            </summary>
+            <param name="date"></param>
+            <returns>StockEarningsFilteredByDate</returns>
+             <response code="200">Returns list of stock earnings filtered by date</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.StockEarningsController.GetStockEarning(System.String)">
+            <summary>
+            GetStockEarning
+            </summary>
+            <param name="ticker"></param>
+            <returns>StockEarning</returns>
+            <response code="200">Returns the specific stock earning</response>
+            <response code="400">If the ticker is invalid</response>
+            <response code="404">If the stock earning couldn't be found</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.StockEarningsController.CreateStockEarning(StockInvestments.API.Models.StockEarningForCreationDto)">
+            <summary>
+            CreateStockEarning
+            </summary>
+            <param name="stockEarning"></param>
+            <returns>Newly created StockEarning</returns>
+            <response code="201">New stock earning created</response>
+            <response code="400">If the stock earning is null</response>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.StockEarningsController.UpdateStockEarning(System.String,StockInvestments.API.Models.StockEarningForUpdateDto)">
+            <summary>
+            UpdateStockEarning
+            </summary>
+            <param name="ticker"></param>
+            <param name="stockEarning"></param>
+            <returns></returns>
+            <response code="204">If the Stock earning is updated</response>
+            <response code="400">If the ticker is invalid</response>
+            <response code="404">If the Stock earning is not found</response>
+        </member>
+        <member name="M:StockInvestments.API.DbContexts.StockInvestmentsContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{StockInvestments.API.DbContexts.StockInvestmentsContext})">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:StockInvestments.API.DbContexts.StockInvestmentsContext.CurrentPositions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.DbContexts.StockInvestmentsContext.SoldPositions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.DbContexts.StockInvestmentsContext.ClosedPositions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.DbContexts.StockInvestmentsContext.StockEarnings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.DbContexts.StockInvestmentsContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="modelBuilder"></param>
+        </member>
+        <member name="T:StockInvestments.API.Entities.ClosedPosition">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.ClosedPosition.Number">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.ClosedPosition.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.ClosedPosition.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.ClosedPosition.FinalValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Entities.CurrentPosition">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.CurrentPosition.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.CurrentPosition.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.CurrentPosition.PurchasePrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.CurrentPosition.TotalShares">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.CurrentPosition.TotalAmount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.CurrentPosition.SoldPositions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Entities.SoldPosition">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.SoldPosition.Number">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.SoldPosition.SellingPrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.SoldPosition.TotalShares">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.SoldPosition.TotalAmount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.SoldPosition.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.SoldPosition.CurrentPosition">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Entities.StockEarning">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.StockEarning.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.StockEarning.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.StockEarning.EarningsDate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Entities.StockEarning.EarningsCallTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.ClosedPositionDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionDto.FinalValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.ClosedPositionForCreationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.ClosedPositionForManipulationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionForManipulationDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionForManipulationDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionForManipulationDto.FinalValue">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.ClosedPositionForUpdateDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.ClosedPositionForUpdateDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.CurrentPositionDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionDto.PurchasePrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionDto.TotalShares">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionDto.TotalAmount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.CurrentPositionForCreationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForCreationDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForCreationDto.SoldPositions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.CurrentPositionForManipulationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForManipulationDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForManipulationDto.PurchasePrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForManipulationDto.TotalShares">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForManipulationDto.TotalAmount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.CurrentPositionForUpdateDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.CurrentPositionForUpdateDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.SoldPositionDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionDto.Number">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionDto.SellingPrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionDto.TotalShares">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionDto.TotalAmount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.SoldPositionForCreationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.SoldPositionForManipulationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionForManipulationDto.SellingPrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionForManipulationDto.TotalShares">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.SoldPositionForManipulationDto.TotalAmount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.SoldPositionForUpdateDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.StockEarningDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningDto.EarningsDate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningDto.EarningsCallTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.StockEarningForCreationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningForCreationDto.Ticker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.StockEarningForManipulationDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningForManipulationDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningForManipulationDto.EarningsDate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningForManipulationDto.EarningsCallTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:StockInvestments.API.Models.StockEarningForUpdateDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningForUpdateDto.Company">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:StockInvestments.API.Models.StockEarningForUpdateDto.EarningsCallTime">
+            <summary>
+            
+            </summary>
         </member>
         <member name="T:StockInvestments.API.Services.SoldPositionsRepository">
             <summary>

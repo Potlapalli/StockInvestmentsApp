@@ -16,7 +16,7 @@ namespace StockInvestments.API.DbContexts
         public StockInvestmentsContext(DbContextOptions<StockInvestmentsContext> options)
             : base(options)
         {
-
+            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         /// <summary>

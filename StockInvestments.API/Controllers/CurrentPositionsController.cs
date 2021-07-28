@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using StockInvestments.API.Contracts;
 using StockInvestments.API.Entities;
 using StockInvestments.API.Helpers;
 using StockInvestments.API.Models;
-using StockInvestments.API.Services;
 
 namespace StockInvestments.API.Controllers
 {
@@ -23,17 +26,21 @@ namespace StockInvestments.API.Controllers
     {
         private readonly ICurrentPositionsRepository _currentPositionsRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="currentPositionsRepository"></param>
         /// <param name="mapper"></param>
-        public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper)
+        public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper, ILogger logger)
         {
             _currentPositionsRepository = currentPositionsRepository ??
                                           throw new ArgumentNullException(nameof(currentPositionsRepository));
             _mapper = mapper ?? 
                       throw new ArgumentNullException(nameof(mapper));
+
+            _logger =  logger ??
+                       throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -197,7 +204,7 @@ namespace StockInvestments.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult UpdateCurrentPosition(string ticker, CurrentPositionForUpdateDto currentPosition)
+        public IActionResult UpdateCurrentPosition(string ticker, CurrentPositionForUpdateDto currentPosition)
         {
             if (string.IsNullOrEmpty(ticker))
                 return BadRequest("Invalid ticker");
@@ -213,6 +220,46 @@ namespace StockInvestments.API.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// PartiallyUpdateCurrentPosition
+        /// </summary>
+        /// <param name="ticker"></param>
+        /// <param name="patchDocument"></param>
+        /// <returns></returns>
+        /// <response code="204">If the current position is updated</response>
+        /// <response code="400">If the ticker are invalid</response>
+        /// <response code="404">If the Current Positions are not found</response>
+        //Patch api/currentPositions/xxx
+        [HttpPatch("{ticker}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult PartiallyUpdateCurrentPosition(string ticker, JsonPatchDocument<CurrentPositionForUpdateDto> patchDocument)
+        {
+            if (string.IsNullOrEmpty(ticker))
+                return BadRequest("Invalid ticker");
+
+            var currentPositionFromRepo = _currentPositionsRepository.GetCurrentPosition(ticker);
+            if (currentPositionFromRepo == null)
+                return NotFound("Current Position couldn't be found.");
+
+            var currentPositionToPatch = _mapper.Map<CurrentPositionForUpdateDto>(currentPositionFromRepo);
+            patchDocument.ApplyTo(currentPositionToPatch , ModelState);
+
+            if (!TryValidateModel(currentPositionToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(currentPositionToPatch, currentPositionFromRepo);
+
+            _currentPositionsRepository.Update(currentPositionFromRepo);
+            _currentPositionsRepository.Save();
+
+            return NoContent();
+        }
+
 
         /// <summary>
         /// DeleteCurrentPosition
@@ -240,6 +287,17 @@ namespace StockInvestments.API.Controllers
             _currentPositionsRepository.Save();
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelStateDictionary"></param>
+        /// <returns></returns>
+        public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
+        {
+            var options = HttpContext.RequestServices.GetRequiredService<IOptions<ApiBehaviorOptions>>();
+            return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
     }
 }
