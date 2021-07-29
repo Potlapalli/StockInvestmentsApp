@@ -26,13 +26,15 @@ namespace StockInvestments.API.Controllers
     {
         private readonly ICurrentPositionsRepository _currentPositionsRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        private readonly ILogger<CurrentPositionsController> _logger;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="currentPositionsRepository"></param>
         /// <param name="mapper"></param>
-        public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper, ILogger logger)
+        /// <param name="logger"></param>
+        public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper, ILogger<CurrentPositionsController> logger)
         {
             _currentPositionsRepository = currentPositionsRepository ??
                                           throw new ArgumentNullException(nameof(currentPositionsRepository));

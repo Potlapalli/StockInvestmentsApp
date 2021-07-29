@@ -1,0 +1,53 @@
+﻿@page "/currentPositions/"
+
+@inject ICurrentPositionRepository _repo 
+<h3>CurrentPositions</h3>
+
+@if (Model == null)
+{
+    <div class="alert alert-dismissible alert-secondary">
+        Loading Data...
+    </div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th> Ticker </th>
+            <th> Company </th>
+            <th> Actions </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var currentPosition in Model)
+        {
+            <tr>
+                <td>@currentPosition.Ticker</td>
+                <td>@currentPosition.Company</td>
+                <td>
+                    <button class="btn btn-primary">
+                        <span class=" oi oi-book"></span>
+                    </button>
+                    <button class="btn btn-warning">
+                        <span class=" oi oi-pencil"></span>
+                    </button>
+                    <button class="btn btn-danger">
+                        <span class=" oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<CurrentPosition> Model;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.CurrentPositionsEndpoint);
+    }
+
+}

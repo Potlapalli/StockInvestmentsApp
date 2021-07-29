@@ -246,12 +246,13 @@
             CurrentPositionsController
             </summary>
         </member>
-        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper)">
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{StockInvestments.API.Controllers.CurrentPositionsController})">
             <summary>
             
             </summary>
             <param name="currentPositionsRepository"></param>
             <param name="mapper"></param>
+            <param name="logger"></param>
         </member>
         <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPositions">
             <summary>
@@ -745,11 +746,6 @@
             
             </summary>
         </member>
-        <member name="P:StockInvestments.API.Models.ClosedPositionForUpdateDto.Company">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="T:StockInvestments.API.Models.CurrentPositionDto">
             <summary>
             
@@ -821,11 +817,6 @@
             </summary>
         </member>
         <member name="T:StockInvestments.API.Models.CurrentPositionForUpdateDto">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:StockInvestments.API.Models.CurrentPositionForUpdateDto.Company">
             <summary>
             
             </summary>
@@ -946,11 +937,6 @@
             </summary>
         </member>
         <member name="T:StockInvestments.API.Models.StockEarningForUpdateDto">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:StockInvestments.API.Models.StockEarningForUpdateDto.Company">
             <summary>
             
             </summary>

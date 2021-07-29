@@ -11,11 +11,11 @@ namespace StockInvestments.API.Models
     /// </summary>
     public class CurrentPositionForUpdateDto : CurrentPositionForManipulationDto
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        [Required(ErrorMessage = "Company name is required.")]
-        public override string Company { get => base.Company; set => base.Company = value; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Required(ErrorMessage = "Company name is required.")]
+        //public override string Company { get => base.Company; set => base.Company = value; }
 
     }
 }
