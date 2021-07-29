@@ -10,7 +10,7 @@ namespace StockInvestmentsUI.Contracts
         Task<T> Get(string url, string ticker);
         Task<IList<T>> Get(string url);
         Task<bool> Create(string url, T obj);
-        Task<bool> Update(string url, T obj);
+        Task<bool> Update(string url, string ticker, T obj);
         Task<bool> Delete(string url, string ticker);
     }
 }

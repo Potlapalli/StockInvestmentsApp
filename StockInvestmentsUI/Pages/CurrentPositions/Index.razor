@@ -5,9 +5,7 @@
 
 @if (Model == null)
 {
-    <div class="alert alert-dismissible alert-secondary">
-        Loading Data...
-    </div>
+    <LoadingMessage Message="Loading CurrentPositions..."></LoadingMessage>
 }
 else
 {
@@ -29,7 +27,7 @@ else
                     <a href ="/currentPositions/view/@currentPosition.Ticker" class="btn btn-primary">
                         <span class=" oi oi-book"></span>
                     </a>
-                    <a class="btn btn-warning">
+                    <a href ="/currentPositions/edit/@currentPosition.Ticker" class="btn btn-warning">
                         <span class=" oi oi-pencil"></span>
                     </a>
                     <a class="btn btn-danger">

@@ -5,60 +5,56 @@
 
 @if (Model == null)
 {
-    <div class="alert alert-dismissible alert-secondary">
-        Loading CurrentPosition Details...
-    </div>
+    <LoadingMessage Message="Loading CurrentPosition Details..."></LoadingMessage>
 }
 else
 {
-    <div class="col-md-4">
-        <table class="table table-responsive">
-            <tr>
-                <td>Ticker</td>
-                <td>@Model.Ticker</td>
-            </tr>
-            <tr>
-                <td>Company</td>
-                <td>@Model.Company</td>
-            </tr>
-            <tr>
-                <td>PurchasePrice</td>
-                <td>@Model.PurchasePrice</td>
-            </tr>
-            <tr>
-                <td>TotalShares</td>
-                <td>@Model.TotalShares</td>
-            </tr>
-            <tr>
-                <td>TotalAmount</td>
-                <td>@Model.TotalAmount</td>
-            </tr>
-        </table>
-        <br/>
-        
-        @if (Model.SoldPositions == null || Model.SoldPositions.Count < 1)
-        {
-            <div class="alert alert-dismissible alert-secondary">
-                No SoldPositions for the CurrentPosition
+<div class="col-md-4">
+    <table class="table table-responsive">
+        <tr>
+            <td>Ticker</td>
+            <td>@Model.Ticker</td>
+        </tr>
+        <tr>
+            <td>Company</td>
+            <td>@Model.Company</td>
+        </tr>
+        <tr>
+            <td>PurchasePrice</td>
+            <td>@Model.PurchasePrice</td>
+        </tr>
+        <tr>
+            <td>TotalShares</td>
+            <td>@Model.TotalShares</td>
+        </tr>
+        <tr>
+            <td>TotalAmount</td>
+            <td>@Model.TotalAmount</td>
+        </tr>
+    </table>
+    <br />
+
+    @if (Model.SoldPositions == null || Model.SoldPositions.Count < 1)
+    {
+        <LoadingMessage Message="No SoldPositions for the CurrentPosition"></LoadingMessage>
+    }
+    else
+    {
+        <div class="card" style="width: 25rem;">
+            <div class="card-header">
+                <h4>SoldPositions</h4>
             </div>
-        }
-        else
-        {
-            <div class="card" style="width: 25rem;">
-                <div class="card-header">
-                    <h4>SoldPositions</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                    @foreach (var soldPosition in Model.SoldPositions)
-                    {
+            <ul class="list-group list-group-flush">
+                @foreach (var soldPosition in Model.SoldPositions)
+                {
                     <li class="list-group-item">TotalShares: @soldPosition.TotalShares  SellingPrice: @soldPosition.SellingPrice    </li>
-                    }
-                </ul>
-            </div>
-        }
-    </div>
+                }
+            </ul>
+        </div>
+    }
+</div>
 }
-<br/>
+<br />
 
 <button @onclick="BackToList" class="btn btn-outline-secondary">
     <span class="oi oi-media-skip-backward"></span>

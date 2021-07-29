@@ -65,9 +65,9 @@ namespace StockInvestmentsUI.Services
             return false;
         }
 
-        public async Task<bool> Update(string url, T obj)
+        public async Task<bool> Update(string url, string ticker, T obj)
         {
-            var request = new HttpRequestMessage(HttpMethod.Put, url);
+            var request = new HttpRequestMessage(HttpMethod.Put, url + ticker);
             if (obj == null)
                 return false;
 
