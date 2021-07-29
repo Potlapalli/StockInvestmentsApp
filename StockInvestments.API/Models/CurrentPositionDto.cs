@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StockInvestments.API.Entities;
 
 namespace StockInvestments.API.Models
 {
@@ -34,5 +35,10 @@ namespace StockInvestments.API.Models
         /// 
         /// </summary>
         public double TotalAmount { get; set; }
+
+       /// <summary>
+       /// 
+       /// </summary>
+       public List<SoldPositionDto> SoldPositions { get; set; }
     }
 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StockInvestmentsUI.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +31,7 @@ namespace StockInvestmentsUI
             services.AddServerSideBlazor();
             services.AddHttpClient();
             services.AddTransient<ICurrentPositionRepository, CurrentPositionRepository>();
+            services.AddTransient<ISoldPositionRepository, SoldPositionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

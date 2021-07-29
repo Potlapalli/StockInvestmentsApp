@@ -34,7 +34,8 @@ namespace StockInvestments.API.Services
 
         public CurrentPosition GetCurrentPosition(string ticker)
         {
-            return _stockInvestmentsContext.CurrentPositions.FirstOrDefault(cp => cp.Ticker == ticker);
+            return _stockInvestmentsContext.CurrentPositions.
+                Include(x => x.SoldPositions).FirstOrDefault(cp => cp.Ticker == ticker);
         }
 
         public void Add(CurrentPosition currentPosition)
