@@ -1,0 +1,72 @@
+﻿@page "/currentPositions/create/"
+@inject ICurrentPositionRepository _repo
+@inject NavigationManager _navigationManager
+<h3 class="card-title">Create New CurrentPosition</h3>
+<hr />
+<br />
+
+@if (!isSuccess)
+{
+    <FailureMessage Message="Something went wrong with the create"></FailureMessage>
+}
+
+<EditForm Model="Model" OnValidSubmit="CreateCurrentPosition">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group">
+        <label for="ticker"> Ticker </label>
+        <InputText @bind-Value="Model.Ticker" class="form-control" id="ticker"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="company"> Company </label>
+        <InputText @bind-Value="Model.Company" class="form-control" id="company"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="totalshares"> TotalShares </label>
+        <InputNumber @bind-Value="Model.TotalShares" @onblur="OnValueChanged" class="form-control" id="totalshares"></InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="purchaseprice"> PurchasePrice </label>
+        <InputNumber @bind-Value="Model.PurchasePrice" @onblur="OnValueChanged" class="form-control" id="purchaseprice"></InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="totalamount"> TotalAmount </label>
+        <InputNumber @bind-Value="Model.TotalAmount" class="form-control" id="totalamount"></InputNumber>
+    </div>
+    <button class="btn btn-primary" type="submit">
+        <span class="oi oi-pencil "></span>
+        Create
+    </button>
+</EditForm>
+
+<br />
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>
+
+@code {
+
+    private CurrentPosition Model = new CurrentPosition();
+    private bool isSuccess = true;
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/currentPositions/");
+    }
+
+    private async Task CreateCurrentPosition()
+    {
+        isSuccess = await _repo.Create(Endpoints.CurrentPositionsEndpoint, Model);
+        if (isSuccess)
+        {
+            BackToList();
+        }
+    }
+
+    private void OnValueChanged()
+    {
+        Model.TotalAmount = Model.PurchasePrice * Model.TotalShares;
+    }
+}

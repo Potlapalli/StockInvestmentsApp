@@ -472,14 +472,6 @@
             <response code="204">If the sold positions are deleted</response>
             <response code="404">If the Current Position or sold position couldn't be found</response>
         </member>
-        <member name="M:StockInvestments.API.Controllers.SoldPositionsController.AddClosedPositionBasedOnTotalShares(System.String,StockInvestments.API.Entities.SoldPosition)">
-            <summary>
-            ProcessUpdateBasedOnTotalShares
-            </summary>
-            <param name="ticker"></param>
-            <param name="soldPositionEntity"></param>
-            <returns></returns>
-        </member>
         <member name="M:StockInvestments.API.Controllers.SoldPositionsController.ValidationProblem(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
             <summary>
             

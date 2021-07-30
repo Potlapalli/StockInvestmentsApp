@@ -1,8 +1,13 @@
-﻿@page "/currentPositions/view/{ticker}"
+﻿@page "/currentPositions/delete/{ticker}"
 @inject ICurrentPositionRepository _repo
 @inject NavigationManager _navigationManager
-<h3 class="card-title">CurrentPosition</h3>
+<h3 class="card-title">Are you sure you want delete this record?</h3>
 <br />
+
+@if (isFailed)
+{
+    <FailureMessage Message="Something went wrong with the delete"></FailureMessage>
+}
 
 @if (Model == null)
 {
@@ -57,17 +62,22 @@ else
 }
 <br />
 
+<button @onclick="DeleteCurrentPosition" class="btn btn-danger">
+    <span class="oi oi-delete"></span>
+    Delete
+</button>
+
 <button @onclick="BackToList" class="btn btn-outline-secondary">
     <span class="oi oi-media-skip-backward"></span>
     Back To List
 </button>
-
 
 @code {
     [Parameter]
     public string Ticker { get; set; }
 
     private CurrentPosition Model = new CurrentPosition();
+    private bool isFailed = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,6 +87,19 @@ else
     private void BackToList()
     {
         _navigationManager.NavigateTo("/currentPositions/");
+    }
+
+    private async Task DeleteCurrentPosition()
+    {
+        bool isSuccess = await _repo.Delete(Endpoints.CurrentPositionsEndpoint, Ticker);
+        if (isSuccess)
+        {
+            BackToList();
+        }
+        else
+        {
+            isFailed = true;
+        }
     }
 
 }

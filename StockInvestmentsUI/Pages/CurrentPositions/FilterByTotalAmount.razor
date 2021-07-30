@@ -1,0 +1,84 @@
+﻿@page "/currentPositions/filterByTotalAmount"
+@inject ICurrentPositionRepository _repo
+@inject NavigationManager _navigationManager
+<h3 class="card-title">FilterByTotalAmount</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading Filtered CurrentPositions..."></LoadingMessage>
+}
+else
+{
+    @if (Model.Count < 1)
+    {
+        string message = $"There are no current positions available with total amount greater than {FilterCritieriaModel.TotalAmountFilterValue}";
+        <LoadingMessage Message=@message></LoadingMessage>
+    }
+    else
+    {
+        <EditForm Model="FilterCritieriaModel" OnValidSubmit="GetCurrentPositionsFilteredByTotalAmount">
+            <div class="form-group">
+                <label for="totalamount"> TotalAmount </label>
+                <InputNumber @bind-Value="FilterCritieriaModel.TotalAmountFilterValue" class="form-control" id="totalamount"></InputNumber>
+            </div>
+            <button class="btn btn-primary" type="submit">
+                <span class="oi oi-pencil "></span>
+                Filter
+            </button>
+        </EditForm>
+
+        <br />
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Ticker </th>
+                    <th> Company </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var currentPosition in Model)
+                {
+                <tr>
+                    <td>@currentPosition.Ticker</td>
+                    <td>@currentPosition.Company</td>
+                    <td>@currentPosition.PurchasePrice</td>
+                    <td>@currentPosition.TotalShares</td>
+                    <td>@currentPosition.TotalAmount</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />       
+    }
+}
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>
+
+@code {
+    private IList<CurrentPosition> Model;
+    private FilterCritieria FilterCritieriaModel;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.CurrentPositionsEndpoint);
+        FilterCritieriaModel = new FilterCritieria();
+    }
+
+    private async Task GetCurrentPositionsFilteredByTotalAmount()
+    {
+        Model = await _repo.Get(Endpoints.CurrentPositionsFilteredByTotalAmountEndpoint + FilterCritieriaModel.TotalAmountFilterValue);
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/currentPositions/");
+    }
+
+}

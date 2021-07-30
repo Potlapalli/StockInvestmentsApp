@@ -19,6 +19,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using StockInvestments.API.DbContexts;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
 using StockInvestments.API.Contracts;
 using StockInvestments.API.Services;
 
@@ -42,6 +43,7 @@ namespace StockInvestments.API
             }).AddNewtonsoftJson(setupAction =>
                 {
                     setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    setupAction.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .AddXmlDataContractSerializerFormatters()
                 .ConfigureApiBehaviorOptions(setupAction =>

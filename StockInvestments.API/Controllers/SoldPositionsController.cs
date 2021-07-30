@@ -379,14 +379,7 @@ namespace StockInvestments.API.Controllers
             return NoContent();
         }
 
-
-        /// <summary>
-        /// ProcessUpdateBasedOnTotalShares
-        /// </summary>
-        /// <param name="ticker"></param>
-        /// <param name="soldPositionEntity"></param>
-        /// <returns></returns>
-        public bool AddClosedPositionBasedOnTotalShares(string ticker, SoldPosition soldPositionEntity)
+        private bool AddClosedPositionBasedOnTotalShares(string ticker, SoldPosition soldPositionEntity)
         {
             var currentPosition = _currentPositionsRepository.GetCurrentPosition(ticker);
 

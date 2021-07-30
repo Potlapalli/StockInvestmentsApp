@@ -9,6 +9,9 @@ namespace StockInvestmentsUI.Static
     {
         public static string BaseUrl = "http://localhost:51044/";
         public static string CurrentPositionsEndpoint = $"{BaseUrl}api/currentPositions/";
+        public static string CurrentPositionsFilteredByTotalAmountEndpoint 
+            = $"{BaseUrl}api/currentPositions/filterByTotalAmount?totalAmountGreaterThan=";
+
         //public static string SoldPositionsEndpoint = $"{BaseUrl}api/currentPositions/";
     }
 }

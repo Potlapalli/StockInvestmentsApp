@@ -1,7 +1,9 @@
 ﻿@page "/currentPositions/"
 
-@inject ICurrentPositionRepository _repo 
-<h3>CurrentPositions</h3>
+@inject ICurrentPositionRepository _repo
+<h3 class="card-title">CurrentPositions</h3>
+<hr />
+<br />
 
 @if (Model == null)
 {
@@ -9,35 +11,60 @@
 }
 else
 {
-    <table class="table table-responsive">
-        <thead>
-        <tr>
-            <th> Ticker </th>
-            <th> Company </th>
-            <th> Actions </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var currentPosition in Model)
-        {
-            <tr>
-                <td>@currentPosition.Ticker</td>
-                <td>@currentPosition.Company</td>
-                <td>
-                    <a href ="/currentPositions/view/@currentPosition.Ticker" class="btn btn-primary">
-                        <span class=" oi oi-book"></span>
-                    </a>
-                    <a href ="/currentPositions/edit/@currentPosition.Ticker" class="btn btn-warning">
-                        <span class=" oi oi-pencil"></span>
-                    </a>
-                    <a class="btn btn-danger">
-                        <span class=" oi oi-delete"></span>
-                    </a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+<div>
+    <a href="/currentPositions/create" class="btn btn-primary">
+        <span class="oi oi-plus"></span>
+        Create
+    </a>
+
+    <a href="/currentPositions/filterByTotalAmount" class="btn btn-primary">
+            <span class="oi oi-question-mark"></span>
+            FilterByTotalAmount
+    </a>    
+ </div>
+
+    <br/>
+
+
+    @if (Model.Count < 1)
+    {
+        <br/>
+        <LoadingMessage Message="There are no current positions in the data store.
+                        Please click 'Create' to begin"></LoadingMessage>
+    }
+    else
+    {
+        <br/>
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Ticker </th>
+                    <th> Company </th>
+                    <th> Actions </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var currentPosition in Model)
+                {
+                    <tr>
+                        <td>@currentPosition.Ticker</td>
+                        <td>@currentPosition.Company</td>
+                        <td>
+                            <a href="/currentPositions/view/@currentPosition.Ticker" class="btn btn-primary">
+                                <span class=" oi oi-book"></span>
+                            </a>
+                            <a href="/currentPositions/edit/@currentPosition.Ticker" class="btn btn-warning">
+                                <span class=" oi oi-pencil"></span>
+                            </a>
+                            <a href="/currentPositions/delete/@currentPosition.Ticker" class="btn btn-danger">
+                                <span class=" oi oi-delete"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
 
 @code {
