@@ -13,24 +13,24 @@ else
     <div class="col-md-4">
         <table class="table table-responsive">
             <tr>
-                <td>Ticker</td>
+                <td><strong>Ticker</strong></td>
                 <td>@Model.Ticker</td>
             </tr>
             <tr>
-                <td>Company</td>
+                <td><strong>Company</strong></td>
                 <td>@Model.Company</td>
             </tr>
             <tr>
-                <td>PurchasePrice</td>
-                <td>@Model.PurchasePrice</td>
+                <td><strong>PurchasePrice</strong></td>
+                <td>@string.Format("{0:C}", Model.PurchasePrice)</td>
             </tr>
             <tr>
-                <td>TotalShares</td>
+                <td><strong>TotalShares</strong></td>
                 <td>@Model.TotalShares</td>
             </tr>
             <tr>
-                <td>TotalAmount</td>
-                <td>@Model.TotalAmount</td>
+                <td><strong>TotalAmount</strong></td>
+                <td>@string.Format("{0:C}", Model.TotalAmount)</td>
             </tr>
         </table>
         <br />

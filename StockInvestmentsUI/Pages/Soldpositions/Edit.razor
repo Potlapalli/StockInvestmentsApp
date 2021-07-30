@@ -1,8 +1,8 @@
-﻿@page "/currentPositions/edit/{ticker}"
-@inject ICurrentPositionRepository _repo
+﻿@page "/soldPositions/edit/{number}/{ticker}"
+@inject ISoldPositionRepository _repo
 @inject NavigationManager _navigationManager
 @inject IToastService _toastService
-<h3 class="card-title">Update CurrentPosition</h3>
+<h3 class="card-title">Update SoldPosition</h3>
 <hr />
 <br />
 
@@ -13,24 +13,20 @@
 
 @if (Model == null)
 {
-    <LoadingMessage Message="Loading CurrentPosition For Update"></LoadingMessage>
+    <LoadingMessage Message="Loading SoldPosition For Update"></LoadingMessage>
 }
 else
 {
-    <EditForm Model="Model" OnValidSubmit="UpdateCurrentPosition">
+    <EditForm Model="Model" OnValidSubmit="UpdateSoldPosition">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
-        <div class="form-group">
-            <label for="company"> Company </label>
-            <InputText @bind-Value="Model.Company" class="form-control" id="company"></InputText>
-        </div>
         <div class="form-group">
             <label for="totalshares"> TotalShares </label>
             <InputNumber @bind-Value="Model.TotalShares" @onblur="OnValueChanged" class="form-control" id="totalshares"></InputNumber>
         </div>
         <div class="form-group">
-            <label for="purchaseprice"> PurchasePrice </label>
-            <InputNumber @bind-Value="Model.PurchasePrice" @onblur="OnValueChanged" class="form-control" id="purchaseprice"></InputNumber>
+            <label for="sellingprice"> SellingPrice </label>
+            <InputNumber @bind-Value="Model.SellingPrice" @onblur="OnValueChanged" class="form-control" id="sellingprice"></InputNumber>
         </div>
         <div class="form-group">
             <label for="totalamount"> TotalAmount </label>
@@ -54,27 +50,29 @@ else
 
 @code {
     [Parameter]
+    public string Number { get; set; }
+    [Parameter]
     public string Ticker { get; set; }
 
-    private CurrentPosition Model = new CurrentPosition();
+    private SoldPosition Model = new SoldPosition();
     private bool isFailed = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await _repo.Get(Endpoints.CurrentPositionsEndpoint, Ticker);
+        Model = await _repo.Get($"{Endpoints.CurrentPositionsEndpoint}{Ticker}/soldPositions/", Number);
     }
 
     private void BackToList()
     {
-        _navigationManager.NavigateTo("/currentPositions/");
+        _navigationManager.NavigateTo("/soldPositions/");
     }
 
-    private async Task UpdateCurrentPosition()
+    private async Task UpdateSoldPosition()
     {
-        bool isSuccess = await _repo.Update(Endpoints.CurrentPositionsEndpoint, Ticker, Model);
+        bool isSuccess = await _repo.Update($"{Endpoints.CurrentPositionsEndpoint}{Ticker}/soldPositions/", Number, Model);
         if (isSuccess)
         {
-            _toastService.ShowSuccess("CurrentPosition updated successfully");
+            _toastService.ShowSuccess("SoldPosition updated successfully");
             BackToList();
         }
         else
@@ -85,7 +83,7 @@ else
 
     private void OnValueChanged()
     {
-        Model.TotalAmount = Model.PurchasePrice * Model.TotalShares;
+        Model.TotalAmount = Model.SellingPrice * Model.TotalShares;
     }
 
 

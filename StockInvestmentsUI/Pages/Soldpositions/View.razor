@@ -1,0 +1,67 @@
+﻿@page "/soldPositions/view/{number}/{ticker}"
+@inject ISoldPositionRepository _repo
+@inject NavigationManager _navigationManager
+<h3 class="card-title">SoldPosition</h3>
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading SoldPosition Details..."></LoadingMessage>
+}
+else
+{
+    <div class="col-md-4">
+        <table class="table table-responsive">
+            <tr>
+                <td> <strong>Number</strong></td>
+                <td>@Model.Number</td>
+            </tr>
+            <tr>
+                <td> <strong>Ticker</strong></td>
+                <td>
+                <a href="/currentPositions/view/@Model.Ticker"> @Model.Ticker</a>
+                </td>
+            </tr>
+            <tr>
+                <td> <strong>PurchasePrice</strong></td>
+                <td>@string.Format("{0:C}", Model.SellingPrice)</td>
+            </tr>
+            <tr>
+                <td><strong>TotalShares</strong></td>
+                <td>@Model.TotalShares</td>
+            </tr>
+            <tr>
+                <td><strong>TotalAmount</strong></td>
+                <td>@string.Format("{0:C}", Model.TotalAmount)</td>
+            </tr>
+        </table>
+        <br />       
+    </div>
+}
+<br />
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>
+
+
+@code {
+    [Parameter]
+    public string Number { get; set; }
+    [Parameter]
+    public string Ticker { get; set; }
+
+    private SoldPosition Model = new SoldPosition();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _repo.Get($"{Endpoints.CurrentPositionsEndpoint}{Ticker}/soldPositions/", Number);
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/soldPositions/");
+    }
+
+}

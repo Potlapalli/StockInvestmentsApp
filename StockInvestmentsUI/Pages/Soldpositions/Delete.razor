@@ -1,0 +1,90 @@
+﻿@page "/soldPositions/delete/{number}/{ticker}"
+@inject ISoldPositionRepository _repo
+@inject NavigationManager _navigationManager
+@inject IToastService _toastService
+<h3 class="card-title">Are you sure you want delete this record?</h3>
+<br />
+
+@if (isFailed)
+{
+    <FailureMessage Message="Something went wrong with the delete"></FailureMessage>
+}
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading SoldPosition Details..."></LoadingMessage>
+}
+else
+{
+    <div class="col-md-4">
+        <table class="table table-responsive">
+            <tr>
+                <td>Number</td>
+                <td>@Model.Number</td>
+            </tr>
+            <tr>
+                <td>Ticker</td>
+                <td>@Model.Ticker</td>
+            </tr>
+            <tr>
+                <td>SellingPrice</td>
+                <td>@string.Format("{0:C}", Model.SellingPrice)</td>
+            </tr>
+            <tr>
+                <td>TotalShares</td>
+                <td>@Model.TotalShares</td>
+            </tr>
+            <tr>
+                <td>TotalAmount</td>
+                <td>@string.Format("{0:C}", Model.TotalAmount)</td>
+            </tr>
+        </table>
+        <br />
+    </div>
+}
+<br />
+
+<button @onclick="DeleteSoldPosition" class="btn btn-danger">
+    <span class="oi oi-delete"></span>
+    Delete
+</button>
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>
+
+@code {
+    [Parameter]
+    public string Number { get; set; }
+    [Parameter]
+    public string Ticker { get; set; }
+
+    private SoldPosition Model = new SoldPosition();
+    private bool isFailed = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _repo.Get($"{Endpoints.CurrentPositionsEndpoint}{Ticker}/soldPositions/", Number);
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/soldPositions/");
+    }
+
+    private async Task DeleteSoldPosition()
+    {
+        bool isSuccess = await _repo.Delete($"{Endpoints.CurrentPositionsEndpoint}{Ticker}/soldPositions/", Number);
+        if (isSuccess)
+        {
+            _toastService.ShowSuccess("SoldPosition deleted successfully");
+            BackToList();
+        }
+        else
+        {
+            isFailed = true;
+        }
+    }
+
+}

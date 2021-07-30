@@ -47,7 +47,7 @@ else
                 @foreach (var currentPosition in Model)
                 {
                     <tr>
-                        <td>@currentPosition.Ticker</td>
+                        <td><strong>@currentPosition.Ticker</strong></td>
                         <td>@currentPosition.Company</td>
                         <td>
                             <a href="/currentPositions/view/@currentPosition.Ticker" class="btn btn-primary">

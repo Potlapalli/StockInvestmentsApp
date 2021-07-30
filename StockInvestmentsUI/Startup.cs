@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StockInvestmentsUI.Contracts;
 using StockInvestmentsUI.Services;
+using Blazored.Toast;
 
 namespace StockInvestmentsUI
 {
@@ -29,6 +30,7 @@ namespace StockInvestmentsUI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredToast();
             services.AddHttpClient();
             services.AddTransient<ICurrentPositionRepository, CurrentPositionRepository>();
             services.AddTransient<ISoldPositionRepository, SoldPositionRepository>();

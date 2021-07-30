@@ -19,9 +19,9 @@ namespace StockInvestmentsUI.Services
         {
             _client = client;
         }
-        public async Task<T> Get(string url, string ticker)
+        public async Task<T> Get(string url, string id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url + ticker);
+            var request = new HttpRequestMessage(HttpMethod.Get, url + id);
 
             var client = _client.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);
@@ -59,15 +59,15 @@ namespace StockInvestmentsUI.Services
 
             var client = _client.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.Created)
+            if (response.StatusCode == HttpStatusCode.Created || response.StatusCode == HttpStatusCode.NoContent)
                 return true;
 
             return false;
         }
 
-        public async Task<bool> Update(string url, string ticker, T obj)
+        public async Task<bool> Update(string url, string id, T obj)
         {
-            var request = new HttpRequestMessage(HttpMethod.Put, url + ticker);
+            var request = new HttpRequestMessage(HttpMethod.Put, url + id);
             if (obj == null)
                 return false;
 
@@ -75,18 +75,18 @@ namespace StockInvestmentsUI.Services
 
             var client = _client.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.NoContent)
+            if (response.StatusCode == HttpStatusCode.NoContent || response.StatusCode == HttpStatusCode.NoContent)
                 return true;
 
             return false;
         }
 
-        public async Task<bool> Delete(string url, string ticker)
+        public async Task<bool> Delete(string url, string id)
         {
-            if (string.IsNullOrEmpty(ticker))
+            if (string.IsNullOrEmpty(id))
                 return false;
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, url + ticker);
+            var request = new HttpRequestMessage(HttpMethod.Delete, url + id);
 
             var client = _client.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);

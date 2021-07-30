@@ -1,8 +1,8 @@
-﻿@page "/currentPositions/create/"
-@inject ICurrentPositionRepository _repo
+﻿@page "/soldPositions/create/"
+@inject ISoldPositionRepository _repo
 @inject NavigationManager _navigationManager
 @inject IToastService _toastService
-<h3 class="card-title">Create New CurrentPosition</h3>
+<h3 class="card-title">Create New SoldPosition</h3>
 <hr />
 <br />
 
@@ -11,7 +11,7 @@
     <FailureMessage Message="Something went wrong with the create"></FailureMessage>
 }
 
-<EditForm Model="Model" OnValidSubmit="CreateCurrentPosition">
+<EditForm Model="Model" OnValidSubmit="CreateSoldPosition">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <ValidationSummary></ValidationSummary>
     <div class="form-group">
@@ -19,16 +19,12 @@
         <InputText @bind-Value="Model.Ticker" class="form-control" id="ticker"></InputText>
     </div>
     <div class="form-group">
-        <label for="company"> Company </label>
-        <InputText @bind-Value="Model.Company" class="form-control" id="company"></InputText>
-    </div>
-    <div class="form-group">
         <label for="totalshares"> TotalShares </label>
         <InputNumber @bind-Value="Model.TotalShares" @onblur="OnValueChanged" class="form-control" id="totalshares"></InputNumber>
     </div>
     <div class="form-group">
-        <label for="purchaseprice"> PurchasePrice </label>
-        <InputNumber @bind-Value="Model.PurchasePrice" @onblur="OnValueChanged" class="form-control" id="purchaseprice"></InputNumber>
+        <label for="sellingprice"> SellingPrice </label>
+        <InputNumber @bind-Value="Model.SellingPrice" @onblur="OnValueChanged" class="form-control" id="sellingprice"></InputNumber>
     </div>
     <div class="form-group">
         <label for="totalamount"> TotalAmount </label>
@@ -49,26 +45,26 @@
 
 @code {
 
-    private CurrentPosition Model = new CurrentPosition();
+    private SoldPosition Model = new SoldPosition();
     private bool isSuccess = true;
 
     private void BackToList()
     {
-        _navigationManager.NavigateTo("/currentPositions/");
+        _navigationManager.NavigateTo("/soldPositions/");
     }
 
-    private async Task CreateCurrentPosition()
+    private async Task CreateSoldPosition()
     {
-        isSuccess = await _repo.Create(Endpoints.CurrentPositionsEndpoint, Model);
+        isSuccess = await _repo.Create($"{Endpoints.CurrentPositionsEndpoint}{Model.Ticker}/soldPositions/", Model);
         if (isSuccess)
         {
-            _toastService.ShowSuccess("CurrentPosition created successfully");
+            _toastService.ShowSuccess("SoldPosition created successfully");
             BackToList();
         }
     }
 
     private void OnValueChanged()
     {
-        Model.TotalAmount = Model.PurchasePrice * Model.TotalShares;
+        Model.TotalAmount = Model.SellingPrice * Model.TotalShares;
     }
 }

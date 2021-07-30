@@ -36,17 +36,20 @@ else
                 <tr>
                     <th> Ticker </th>
                     <th> Company </th>
+                    <th> PurchasePrice </th>
+                    <th> TotalShares </th>
+                    <th> TotalAmount </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var currentPosition in Model)
                 {
                 <tr>
-                    <td>@currentPosition.Ticker</td>
+                    <td><strong>@currentPosition.Ticker</strong></td>
                     <td>@currentPosition.Company</td>
-                    <td>@currentPosition.PurchasePrice</td>
+                    <td>@string.Format("{0:C}", currentPosition.PurchasePrice)</td>
                     <td>@currentPosition.TotalShares</td>
-                    <td>@currentPosition.TotalAmount</td>
+                    <td>@string.Format("{0:C}", currentPosition.TotalAmount)</td>
                 </tr>
                 }
             </tbody>

@@ -1,6 +1,7 @@
 ﻿@page "/currentPositions/delete/{ticker}"
 @inject ICurrentPositionRepository _repo
 @inject NavigationManager _navigationManager
+@inject IToastService _toastService
 <h3 class="card-title">Are you sure you want delete this record?</h3>
 <br />
 
@@ -27,7 +28,7 @@ else
             </tr>
             <tr>
                 <td>PurchasePrice</td>
-                <td>@Model.PurchasePrice</td>
+                <td>@string.Format("{0:C}", Model.PurchasePrice)</td>
             </tr>
             <tr>
                 <td>TotalShares</td>
@@ -35,7 +36,7 @@ else
             </tr>
             <tr>
                 <td>TotalAmount</td>
-                <td>@Model.TotalAmount</td>
+                <td>@string.Format("{0:C}", Model.TotalAmount)</td>
             </tr>
         </table>
         <br />
@@ -94,6 +95,7 @@ else
         bool isSuccess = await _repo.Delete(Endpoints.CurrentPositionsEndpoint, Ticker);
         if (isSuccess)
         {
+            _toastService.ShowSuccess("CurrentPosition deleted successfully");
             BackToList();
         }
         else

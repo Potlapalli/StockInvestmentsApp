@@ -383,9 +383,7 @@ namespace StockInvestments.API.Controllers
         {
             var currentPosition = _currentPositionsRepository.GetCurrentPosition(ticker);
 
-            var sharesRemaining = _soldPositionsRepository.GetSharesRemaining(currentPosition);
-
-            if (sharesRemaining + soldPositionEntity.TotalShares == currentPosition.TotalShares)
+            if (soldPositionEntity.TotalShares == currentPosition.TotalShares)
             {
                 var totalAmount = _soldPositionsRepository.GetSoldPositionsTotalAmount(ticker);
                 var closedPosition = new ClosedPosition()

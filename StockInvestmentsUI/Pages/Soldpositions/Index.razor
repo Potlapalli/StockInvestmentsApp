@@ -1,0 +1,78 @@
+﻿@page "/soldPositions/"
+
+@inject ISoldPositionRepository _repo
+<h3 class="card-title">SoldPositions</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading SoldPositions..."></LoadingMessage>
+}
+else
+{
+    <div>
+        <a href="/soldPositions/create" class="btn btn-primary">
+            <span class="oi oi-plus"></span>
+            Create
+        </a>
+
+        <a href="/soldPositions/filterByTotalAmount" class="btn btn-primary">
+            <span class="oi oi-question-mark"></span>
+            FilterByTotalAmount
+        </a>
+    </div>
+
+    <br />
+
+
+    @if (Model.Count < 1)
+    {
+        <br />
+        <LoadingMessage Message="There are no sold positions in the data store.
+                        Please click 'Create' to begin"></LoadingMessage>
+    }
+    else
+    {
+        <br />
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Number </th>
+                    <th> Ticker </th>
+                    <th> Actions </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var soldPosition in Model)
+                {
+                <tr>
+                    <td>@soldPosition.Number</td>
+                    <td><strong>@soldPosition.Ticker</strong></td>
+                    <td>
+                        <a href="/soldPositions/view/@soldPosition.Number/@soldPosition.Ticker" class="btn btn-primary">
+                            <span class=" oi oi-book"></span>
+                        </a>
+                        <a href="/soldPositions/edit/@soldPosition.Number/@soldPosition.Ticker" class="btn btn-warning">
+                            <span class=" oi oi-pencil"></span>
+                        </a>
+                        <a href="/soldPositions/delete/@soldPosition.Number/@soldPosition.Ticker" class="btn btn-danger">
+                            <span class=" oi oi-delete"></span>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    private IList<SoldPosition> Model;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.SoldPositionsEndpoint);
+    }
+
+}
