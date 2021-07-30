@@ -59,7 +59,7 @@ namespace StockInvestmentsUI.Services
 
             var client = _client.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.Created || response.StatusCode == HttpStatusCode.NoContent)
+            if (response.StatusCode == HttpStatusCode.Created)
                 return true;
 
             return false;
@@ -75,7 +75,7 @@ namespace StockInvestmentsUI.Services
 
             var client = _client.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.NoContent || response.StatusCode == HttpStatusCode.NoContent)
+            if (response.StatusCode == HttpStatusCode.NoContent)
                 return true;
 
             return false;

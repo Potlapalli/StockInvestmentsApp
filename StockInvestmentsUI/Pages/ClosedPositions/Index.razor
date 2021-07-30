@@ -1,0 +1,69 @@
+﻿@page "/closedPositions/"
+
+@inject IClosedPositionRepository _repo
+<h3 class="card-title">ClosedPositions</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading ClosedPositions..."></LoadingMessage>
+}
+else
+{
+    <div>
+        <a href="/closedPositions/create" class="btn btn-primary">
+            <span class="oi oi-plus"></span>
+            Create
+        </a>       
+    </div>
+
+    <br />
+
+
+    @if (Model.Count < 1)
+    {
+        <br />
+        <LoadingMessage Message="There are no closed positions in the data store.
+                        Please click 'Create' to begin"></LoadingMessage>
+    }
+    else
+    {
+        <br />
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Ticker </th>
+                    <th> Company </th>
+                    <th> FinalValue </th>
+                    <th> Actions </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var closedPosition in Model)
+                {
+                <tr>
+                    <td><strong>@closedPosition.Ticker</strong></td>
+                    <td>@closedPosition.Company</td>
+                    <td>@closedPosition.FinalValue</td>
+                    <td>
+                        <a href="/closedPositions/edit/@closedPosition.Ticker" class="btn btn-warning">
+                            <span class=" oi oi-pencil"></span>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    private IList<ClosedPosition> Model;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.ClosedPositionsEndpoint);
+    }
+
+}

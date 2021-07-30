@@ -1,0 +1,70 @@
+﻿@page "/stockEarnings/"
+
+@inject IStockEarningRepository _repo
+<h3 class="card-title">StockEarnings</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading StockEarnings..."></LoadingMessage>
+}
+else
+{
+    <div>
+        <a href="/stockEarnings/create" class="btn btn-primary">
+            <span class="oi oi-plus"></span>
+            Create
+        </a>
+    </div>
+
+    <br />
+
+
+    @if (Model.Count < 1)
+    {
+        <br />
+        <LoadingMessage Message="There are no stock positions in the data store.
+                        Please click 'Create' to begin"></LoadingMessage>
+    }
+    else
+    {
+        <br />
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Ticker </th>
+                    <th> Company </th>
+                    <th> EarningsDate </th>
+                    <th> EarningsCallTime </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stockEarning in Model)
+                {
+                <tr>
+                    <td><strong>@stockEarning.Ticker</strong></td>
+                    <td>@stockEarning.Company</td>
+                    <td>@stockEarning.EarningsDate</td>
+                    <td>@stockEarning.EarningsCallTime</td>
+                    <td>
+                        <a href="/stockEarnings/edit/@stockEarning.Ticker" class="btn btn-warning">
+                            <span class=" oi oi-pencil"></span>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    private IList<StockEarning> Model;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.StockEarningsEndpoint);
+    }
+
+}

@@ -34,6 +34,8 @@ namespace StockInvestmentsUI
             services.AddHttpClient();
             services.AddTransient<ICurrentPositionRepository, CurrentPositionRepository>();
             services.AddTransient<ISoldPositionRepository, SoldPositionRepository>();
+            services.AddTransient<IClosedPositionRepository, ClosedPositionRepository>();
+            services.AddTransient<IStockEarningRepository, StockEarningRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

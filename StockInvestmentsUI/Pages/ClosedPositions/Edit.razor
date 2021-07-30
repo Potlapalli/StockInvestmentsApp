@@ -1,0 +1,83 @@
+﻿@page "/closedPositions/edit/{ticker}"
+@inject IClosedPositionRepository _repo
+@inject NavigationManager _navigationManager
+@inject IToastService _toastService
+<h3 class="card-title">Update ClosedPosition</h3>
+<hr />
+<br />
+
+@if (isFailed)
+{
+    <FailureMessage Message="Something went wrong with the update"></FailureMessage>
+}
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading ClosedPosition For Update"></LoadingMessage>
+}
+else
+{
+<EditForm Model="Model" OnValidSubmit="UpdateClosedPosition">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group">
+        <label for="ticker"> Ticker </label>
+        <InputText @bind-Value="Model.Ticker" class="form-control" id="ticker"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="company"> Company </label>
+        <InputText @bind-Value="Model.Company" class="form-control" id="company"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="finalValue"> FinalValue </label>
+        <InputNumber @bind-Value="Model.FinalValue" class="form-control" id="finalValue"></InputNumber>
+    </div>
+    <button class="btn btn-primary" type="submit">
+        <span class="oi oi-pencil "></span>
+        Update
+    </button>
+
+</EditForm>
+}
+<br />
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>
+
+
+
+@code {
+    [Parameter]
+    public string Ticker { get; set; }
+
+    private ClosedPosition Model = new ClosedPosition();
+    private bool isFailed = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.ClosedPositionsEndpoint, Ticker);
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/closedPositions/");
+    }
+
+    private async Task UpdateClosedPosition()
+    {
+        bool isSuccess = await _repo.Update(Endpoints.ClosedPositionsEndpoint, Ticker, Model);
+        if (isSuccess)
+        {
+            _toastService.ShowSuccess("ClosedPosition updated successfully");
+            BackToList();
+        }
+        else
+        {
+            isFailed = true;
+        }
+    }
+   
+
+}

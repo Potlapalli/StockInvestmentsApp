@@ -53,7 +53,8 @@ namespace StockInvestments.API.Services
         public double GetSoldPositionsTotalAmount(string ticker)
         {
             var soldPositions = _stockInvestmentsContext.SoldPositions.Where(sp => sp.Ticker == ticker).ToList();
-
+            if (soldPositions == null || soldPositions.Count == 0)
+                return 0;
             double totalAmount = soldPositions.Sum(soldPosition => soldPosition.TotalAmount);
             return totalAmount;
         }

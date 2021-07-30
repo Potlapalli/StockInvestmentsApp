@@ -192,12 +192,12 @@ namespace StockInvestments.API.Controllers
 
             var soldPositionEntity = _mapper.Map<SoldPosition>(soldPosition);
 
-            if(AddClosedPositionBasedOnTotalShares(ticker, soldPositionEntity)) 
-                return NoContent();
-            
             _soldPositionsRepository.Add(ticker, soldPositionEntity);
             _soldPositionsRepository.Save();
 
+            if (AddClosedPositionBasedOnTotalShares(ticker, soldPositionEntity)) 
+                return NoContent();
+            
             var soldPositionToReturn = _mapper.Map<SoldPositionDto>(soldPositionEntity);
             return CreatedAtRoute("GetSoldPositionForCurrentPosition",
                 new {ticker = ticker, number = soldPositionToReturn.Number},
@@ -232,11 +232,12 @@ namespace StockInvestments.API.Controllers
                 var soldPositionEntity = _mapper.Map<SoldPosition>(soldPosition);
                 soldPositionEntity.Number = number;
 
+                _soldPositionsRepository.Add(ticker, soldPositionEntity);
+                _soldPositionsRepository.Save();
+
                 if (AddClosedPositionBasedOnTotalShares(ticker, soldPositionEntity))
                     return NoContent();
 
-                _soldPositionsRepository.Add(ticker, soldPositionEntity);
-                _soldPositionsRepository.Save();
                 var soldPositionToReturn = _mapper.Map<SoldPositionDto>(soldPositionEntity);
                 return CreatedAtRoute("GetSoldPositionForCurrentPosition",
                     new { ticker = ticker, number = soldPositionToReturn.Number },
@@ -245,11 +246,12 @@ namespace StockInvestments.API.Controllers
 
             _mapper.Map(soldPosition, soldPositionFromRepo);
 
+            _soldPositionsRepository.Update(soldPositionFromRepo);
+            _soldPositionsRepository.Save();
+
             if (AddClosedPositionBasedOnTotalShares(ticker, soldPositionFromRepo))
                 return NoContent();
 
-            _soldPositionsRepository.Update(soldPositionFromRepo);
-            _soldPositionsRepository.Save();
             return NoContent();
         }
 
@@ -289,11 +291,12 @@ namespace StockInvestments.API.Controllers
                 var soldPositionEntity = _mapper.Map<SoldPosition>(soldPositionForUpdateDto);
                 soldPositionEntity.Number = number;
 
-                if (AddClosedPositionBasedOnTotalShares(ticker, soldPositionEntity))
-                    return NoContent();
-
                 _soldPositionsRepository.Add(ticker, soldPositionEntity);
                 _soldPositionsRepository.Save();
+
+                if (AddClosedPositionBasedOnTotalShares(ticker, soldPositionEntity))
+                    return NoContent();
+              
                 var soldPositionToReturn = _mapper.Map<SoldPositionDto>(soldPositionEntity);
                 return CreatedAtRoute("GetSoldPositionForCurrentPosition",
                     new { ticker = ticker, number = soldPositionToReturn.Number },
@@ -310,11 +313,12 @@ namespace StockInvestments.API.Controllers
 
             _mapper.Map(soldPositionToPatch, soldPositionFromRepo);
 
+            _soldPositionsRepository.Update(soldPositionFromRepo);
+            _soldPositionsRepository.Save();
+
             if (AddClosedPositionBasedOnTotalShares(ticker, soldPositionFromRepo))
                 return NoContent();
 
-            _soldPositionsRepository.Update(soldPositionFromRepo);
-            _soldPositionsRepository.Save();
             return NoContent();
         }
 
@@ -383,16 +387,16 @@ namespace StockInvestments.API.Controllers
         {
             var currentPosition = _currentPositionsRepository.GetCurrentPosition(ticker);
 
-            if (soldPositionEntity.TotalShares == currentPosition.TotalShares)
+            var sharesRemaining = _soldPositionsRepository.GetSharesRemaining(currentPosition);
+
+            if (sharesRemaining == 0)
             {
                 var totalAmount = _soldPositionsRepository.GetSoldPositionsTotalAmount(ticker);
                 var closedPosition = new ClosedPosition()
                 {
                     Ticker = ticker,
                     Company = currentPosition.Company,
-                    FinalValue = (soldPositionEntity.TotalAmount + totalAmount) / currentPosition.TotalShares -
-                                 currentPosition.TotalAmount
-
+                    FinalValue = totalAmount - currentPosition.TotalAmount
                 };
                 _closedPositionsRepository.Add(closedPosition);
                 _soldPositionsRepository.Save();
