@@ -1,0 +1,74 @@
+﻿@page "/sharesRemaining/"
+@inject ISoldPositionRepository _repo
+@inject NavigationManager _navigationManager
+<h3 class="card-title">Get Shares Remaining</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading Shares Remaining..."></LoadingMessage>
+}
+else
+{
+    @if (!isSuccess)
+    {
+        string message = $"There are no shares remaining for the ticker {Model.Ticker}";
+        <FailureMessage Message=@message></FailureMessage>
+    }
+    else
+    {
+        <EditForm Model="Model" OnValidSubmit="GetSharesRemaining">
+            <div class="form-group">
+                <label for="ticker"> Ticker </label>
+                <InputText @bind-Value="Model.Ticker" class="form-control" id="ticker"></InputText>
+            </div>
+            <button class="btn btn-primary" type="submit">
+                <span class="oi oi-pencil "></span>
+                Find
+            </button>
+        </EditForm>
+
+        <br />
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>                 
+                    <th> Shares Remaining </th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td>@result</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+    }
+}
+
+
+
+@code {
+    private FilterCritieria Model;
+    private double result;
+    private bool isSuccess = true;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = new FilterCritieria();
+    }
+
+    private async Task GetSharesRemaining()
+    {
+        result = await _repo.GetSharesRemaining($"{Endpoints.CurrentPositionsEndpoint}{Model.Ticker}/soldPositions/sharesRemaining");
+        if (result == 0)
+            isSuccess = false;
+
+    }
+
+
+}
+

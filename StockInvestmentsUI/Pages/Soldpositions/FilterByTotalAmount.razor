@@ -1,0 +1,88 @@
+﻿@page "/soldPositions/filterByTotalAmount"
+@inject ISoldPositionRepository _repo
+@inject NavigationManager _navigationManager
+<h3 class="card-title">FilterByTotalAmount</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading Filtered SoldPositions..."></LoadingMessage>
+}
+else
+{
+    @if (Model.Count < 1)
+    {
+        string message = $"There are no sold positions available with total amount greater than {FilterCritieriaModel.TotalAmountFilterValue}";
+        <LoadingMessage Message=@message></LoadingMessage>
+    }
+    else
+    {
+        <EditForm Model="FilterCritieriaModel" OnValidSubmit="GetSoldPositionsFilteredByTotalAmount">
+            <div class="form-group">
+                <label for="totalamount"> TotalAmount </label>
+                <InputNumber @bind-Value="FilterCritieriaModel.TotalAmountFilterValue" class="form-control" id="totalamount"></InputNumber>
+            </div>
+            <button class="btn btn-primary" type="submit">
+                <span class="oi oi-pencil "></span>
+                Filter
+            </button>
+        </EditForm>
+
+        <br />
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Number </th>
+                    <th> Ticker </th>
+                    <th> SellingPrice </th>
+                    <th> TotalShares </th>
+                    <th> TotalAmount </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var soldPosition in Model)
+                {
+                    <tr>
+                        <td>@soldPosition.Number</td>
+                        <td><strong>@soldPosition.Ticker</strong></td>
+                        <td>@string.Format("{0:C}", soldPosition.SellingPrice)</td>
+                        <td>@soldPosition.TotalShares</td>
+                        <td>@string.Format("{0:C}", soldPosition.TotalAmount)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />
+
+    }
+}
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>
+
+@code {
+    private IList<SoldPosition> Model;
+    private FilterCritieria FilterCritieriaModel;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.Get(Endpoints.SoldPositionsEndpoint);
+        FilterCritieriaModel = new FilterCritieria();
+    }
+
+    private async Task GetSoldPositionsFilteredByTotalAmount()
+    {
+        Model = await _repo.Get(Endpoints.SoldPositionsFilteredByTotalAmountEndpoint + FilterCritieriaModel.TotalAmountFilterValue);
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/soldPositions/");
+    }
+
+}

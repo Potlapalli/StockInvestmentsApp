@@ -8,5 +8,7 @@ namespace StockInvestmentsUI.Models
     public class FilterCritieria
     {
         public double TotalAmountFilterValue { get; set; }
+
+        public string Ticker { get; set; }
     }
 }

@@ -11,7 +11,10 @@ namespace StockInvestmentsUI.Static
         public static string CurrentPositionsEndpoint = $"{BaseUrl}api/currentPositions/";
         public static string CurrentPositionsFilteredByTotalAmountEndpoint 
             = $"{BaseUrl}api/currentPositions/filterByTotalAmount?totalAmountGreaterThan=";
+        public static string SoldPositionsFilteredByTotalAmountEndpoint
+            = $"{BaseUrl}api/soldPositions/filterByTotalAmount?totalAmountGreaterThan=";
 
         public static string SoldPositionsEndpoint = $"{BaseUrl}api/soldPositions/";
+        public static string PositionsInProfitEndpoint = $"{BaseUrl}api/positionsInProfit/";
     }
 }

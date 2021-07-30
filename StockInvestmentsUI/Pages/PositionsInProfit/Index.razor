@@ -1,0 +1,56 @@
+﻿@page "/positionsInProfit/"
+@inject ISoldPositionRepository _repo
+@inject NavigationManager _navigationManager
+<h3 class="card-title">Positions In Profit</h3>
+<hr />
+<br />
+
+@if (Model == null)
+{
+    <LoadingMessage Message="Loading Positions In Profit..."></LoadingMessage>
+}
+else
+{
+    @if (Model.Count < 1)
+    {
+        string message = $"There are no positions in profit currently.";
+        <LoadingMessage Message=@message></LoadingMessage>
+    }
+    else
+    {
+        
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th> Ticker </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>                      
+                        <td>
+                            <a href="/currentPositions/view/@item"><strong>@item</strong> </a>
+                        </td>                      
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+    }
+}
+
+
+
+@code {
+    private IList<string> Model;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model = await _repo.GetPositionsInProfit(Endpoints.PositionsInProfitEndpoint);
+    }
+
+}
