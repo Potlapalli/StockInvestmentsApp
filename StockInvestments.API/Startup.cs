@@ -113,6 +113,8 @@ namespace StockInvestments.API
 
             services.AddScoped<IClosedPositionsRepository, ClosedPositionsRepository>();
 
+            services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo() { Title = "StockInvestments API", Version = "v1" });

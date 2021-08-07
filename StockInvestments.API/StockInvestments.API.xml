@@ -246,7 +246,7 @@
             CurrentPositionsController
             </summary>
         </member>
-        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{StockInvestments.API.Controllers.CurrentPositionsController})">
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{StockInvestments.API.Controllers.CurrentPositionsController},StockInvestments.API.Contracts.IPropertyCheckerService)">
             <summary>
             
             </summary>
@@ -270,11 +270,12 @@
             <returns>CurrentPositionsFilteredByTotalAmount</returns>
             <response code="200">Returns list of CurrentPositions filtered by total amount</response>
         </member>
-        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPosition(System.String)">
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPosition(System.String,System.String)">
             <summary>
             GetCurrentPosition
             </summary>
             <param name="ticker"></param>
+            <param name="fields"></param>
             <returns>CurrentPosition</returns>
             <response code="200">Returns the specific current position</response>
             <response code="400">If the ticker is invalid</response>
@@ -352,6 +353,17 @@
             
             </summary>
             <param name="modelStateDictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StockInvestments.API.Controllers.RootController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:StockInvestments.API.Controllers.RootController.GetRoot">
+            <summary>
+            
+            </summary>
             <returns></returns>
         </member>
         <member name="T:StockInvestments.API.Controllers.SoldPositionsController">

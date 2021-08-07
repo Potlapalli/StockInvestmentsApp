@@ -58,7 +58,7 @@ namespace StockInvestments.API.Controllers
         /// <response code="200">Returns SoldPositions list</response>
         /// <response code="404">If the current position couldn't be found</response>
         //Get api/currentPositions/xxx/soldPositions
-        [HttpGet]
+        [HttpGet(Name = "GetSoldPositionsForCurrentPosition")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IEnumerable<SoldPositionDto>> GetSoldPositionsForCurrentPosition(string ticker)
@@ -179,7 +179,7 @@ namespace StockInvestments.API.Controllers
         /// <response code="404">If the current position is not found</response>
         /// <response code="204">If the Current Position is deleted</response>
         //Post api/currentPositions/xxx/soldPositions
-        [HttpPost]
+        [HttpPost(Name = "CreateSoldPosition")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status201Created)]

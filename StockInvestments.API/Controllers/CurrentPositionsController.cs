@@ -27,6 +27,7 @@ namespace StockInvestments.API.Controllers
         private readonly ICurrentPositionsRepository _currentPositionsRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CurrentPositionsController> _logger;
+        private readonly IPropertyCheckerService _propertyCheckerService;
 
         /// <summary>
         /// 
@@ -34,7 +35,8 @@ namespace StockInvestments.API.Controllers
         /// <param name="currentPositionsRepository"></param>
         /// <param name="mapper"></param>
         /// <param name="logger"></param>
-        public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper, ILogger<CurrentPositionsController> logger)
+        public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper, 
+            ILogger<CurrentPositionsController> logger , IPropertyCheckerService propertyCheckerService)
         {
             _currentPositionsRepository = currentPositionsRepository ??
                                           throw new ArgumentNullException(nameof(currentPositionsRepository));
@@ -43,6 +45,9 @@ namespace StockInvestments.API.Controllers
 
             _logger =  logger ??
                        throw new ArgumentNullException(nameof(logger));
+
+            _propertyCheckerService = propertyCheckerService ??
+                                      throw new ArgumentNullException(nameof(propertyCheckerService)); ;
         }
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace StockInvestments.API.Controllers
         /// <response code="200">Returns CurrentPositions list</response>
         /// 
         //Get api/currentPositions
-        [HttpGet]
+        [HttpGet( Name = "GetCurrentPositions")]
         // [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<CurrentPositionDto>> GetCurrentPositions()
@@ -81,25 +86,39 @@ namespace StockInvestments.API.Controllers
         /// GetCurrentPosition
         /// </summary>
         /// <param name="ticker"></param>
+        /// <param name="fields"></param>
         /// <returns>CurrentPosition</returns>
         /// <response code="200">Returns the specific current position</response>
         /// <response code="400">If the ticker is invalid</response>
         /// <response code="404">If the Current Position couldn't be found</response>
         //Get api/currentPositions/xxx
+        //Get api/currentPositions/xxx?fields=ticker,company
         [HttpGet("{ticker}", Name = "GetCurrentPosition")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<CurrentPositionDto> GetCurrentPosition(string ticker)
+        public ActionResult<CurrentPositionDto> /*IActionResult */ GetCurrentPosition(string ticker, string fields)
         {
             if (string.IsNullOrEmpty(ticker))
                 return BadRequest("Invalid ticker");
+
+            if (!_propertyCheckerService.TypeHasProperties<CurrentPositionDto>(fields))
+            {
+                return BadRequest();
+            }
 
             var currentPositionFromRepo = _currentPositionsRepository.GetCurrentPosition(ticker);
             if (currentPositionFromRepo == null)
                 return NotFound("Current Position couldn't be found.");
 
-            return Ok(_mapper.Map<CurrentPositionDto>(currentPositionFromRepo));
+            var links = CreateLinksForCurrentPosition(ticker, fields);
+
+            var linkedResourceToReturn = _mapper.Map<CurrentPositionDto>(currentPositionFromRepo).ShapeData(fields)
+                as IDictionary<string, object>;
+
+             linkedResourceToReturn.Add("links", links);
+
+            return Ok(linkedResourceToReturn); 
         }
 
         /// <summary>
@@ -137,7 +156,7 @@ namespace StockInvestments.API.Controllers
         /// <response code="201">Returns the newly created CurrentPosition</response>
         /// <response code="400">If the CurrentPosition is null</response>
         //Post api/currentPositions
-        [HttpPost]
+        [HttpPost(Name = "CreateCurrentPosition")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<CurrentPositionDto> CreateCurrentPosition(CurrentPositionForCreationDto currentPosition)
@@ -147,8 +166,16 @@ namespace StockInvestments.API.Controllers
             _currentPositionsRepository.Save();
 
             var currentPositionToReturn = _mapper.Map<CurrentPositionDto>(currentPositionEntity);
-            return CreatedAtRoute("GetCurrentPosition", new {ticker = currentPositionToReturn.Ticker},
-                currentPositionToReturn);
+
+            var links = CreateLinksForCurrentPosition(currentPositionToReturn.Ticker, null);
+
+            var linkedResourceToReturn = currentPositionToReturn.ShapeData(null)
+                as IDictionary<string, object>;
+
+             linkedResourceToReturn.Add("links", links);
+
+            return CreatedAtRoute("GetCurrentPosition", new {ticker = linkedResourceToReturn["Ticker"]},
+                linkedResourceToReturn);
         }
 
         /// <summary>
@@ -272,7 +299,7 @@ namespace StockInvestments.API.Controllers
         /// <response code="400">If the ticker are invalid</response>
         /// <response code="404">If the Current Positions are not found</response>
         //Delete api/currentPositions/xxx
-        [HttpDelete("{ticker}")]
+        [HttpDelete("{ticker}", Name = "DeleteCurrentPosition")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -300,6 +327,45 @@ namespace StockInvestments.API.Controllers
         {
             var options = HttpContext.RequestServices.GetRequiredService<IOptions<ApiBehaviorOptions>>();
             return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
+        }
+
+        private IEnumerable<LinkDto> CreateLinksForCurrentPosition(string ticker, string fields)
+        {
+            var links = new List<LinkDto>();
+
+            if (string.IsNullOrWhiteSpace(fields))
+            {
+                links.Add( 
+                    new LinkDto(Url.Link("GetCurrentPosition", new {ticker}),
+                        "self",
+                        "GET"));
+            }
+            else
+            {
+                links.Add(
+                    new LinkDto(Url.Link("GetCurrentPosition", new { ticker, fields }),
+                        "self",
+                        "GET"));
+            }
+
+
+            links.Add(
+                new LinkDto(Url.Link("DeleteCurrentPosition", new { ticker }),
+                    "delete_currentPosition",
+                    "DELETE"));
+
+            links.Add(
+                new LinkDto(Url.Link("CreateSoldPosition", new { ticker }),
+                    "create_currentPosition",
+                    "POST"));
+
+            links.Add(
+                new LinkDto(Url.Link("GetSoldPositionsForCurrentPosition", new { ticker }),
+                    "soldPositions",
+                    "GET"));
+
+
+            return links;
         }
     }
 }
