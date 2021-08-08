@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -22,21 +23,27 @@ namespace StockInvestments.API.Controllers
     /// </summary>
     [Route("api/currentPositions")]
     [ApiController]
+    [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 120)]
+    [HttpCacheValidation(MustRevalidate = true)]
+    //[ResponseCache(CacheProfileName = "240SecondsCacheProfile")]
     public class CurrentPositionsController : ControllerBase
     {
         private readonly ICurrentPositionsRepository _currentPositionsRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<CurrentPositionsController> _logger;
         private readonly IPropertyCheckerService _propertyCheckerService;
+        private readonly ILoggerRepo _loggerRepo;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="currentPositionsRepository"></param>
-        /// <param name="mapper"></param>
-        /// <param name="logger"></param>
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="currentPositionsRepository"></param>
+       /// <param name="mapper"></param>
+       /// <param name="logger"></param>
+       /// <param name="loggerRepo"></param>
+       /// <param name="propertyCheckerService"></param>
         public CurrentPositionsController(ICurrentPositionsRepository currentPositionsRepository, IMapper mapper, 
-            ILogger<CurrentPositionsController> logger , IPropertyCheckerService propertyCheckerService)
+            ILogger<CurrentPositionsController> logger , ILoggerRepo loggerRepo, IPropertyCheckerService propertyCheckerService)
         {
             _currentPositionsRepository = currentPositionsRepository ??
                                           throw new ArgumentNullException(nameof(currentPositionsRepository));
@@ -45,6 +52,9 @@ namespace StockInvestments.API.Controllers
 
             _logger =  logger ??
                        throw new ArgumentNullException(nameof(logger));
+
+            _loggerRepo = loggerRepo ??
+                          throw new ArgumentNullException(nameof(loggerRepo));
 
             _propertyCheckerService = propertyCheckerService ??
                                       throw new ArgumentNullException(nameof(propertyCheckerService)); ;
@@ -97,6 +107,7 @@ namespace StockInvestments.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ResponseCache(Duration = 120)]
         public ActionResult<CurrentPositionDto> /*IActionResult */ GetCurrentPosition(string ticker, string fields)
         {
             if (string.IsNullOrEmpty(ticker))
@@ -117,6 +128,8 @@ namespace StockInvestments.API.Controllers
                 as IDictionary<string, object>;
 
              linkedResourceToReturn.Add("links", links);
+
+             _loggerRepo.LogDebug("Get is Successful");
 
             return Ok(linkedResourceToReturn); 
         }

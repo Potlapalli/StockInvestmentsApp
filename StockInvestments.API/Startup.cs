@@ -1,19 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
@@ -37,9 +32,27 @@ namespace StockInvestments.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpCacheHeaders((expirationModelOptions) =>
+                {
+                    expirationModelOptions.MaxAge = 60;
+                    expirationModelOptions.CacheLocation = CacheLocation.Private;
+                },
+                (validationModelOptions) =>
+                {
+                    validationModelOptions.MustRevalidate = true;
+                }
+            );
+            
+            services.AddResponseCaching();
+
             services.AddControllers(setupAction =>
             {
                 setupAction.ReturnHttpNotAcceptable = true;
+                setupAction.CacheProfiles.Add("240SecondsCacheProfile", new CacheProfile()
+                {
+                    Duration = 240
+                });
+               // setupAction.Filters.Add(new HttpResponseExceptionFilter());
             }).AddNewtonsoftJson(setupAction =>
                 {
                     setupAction.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -115,6 +128,8 @@ namespace StockInvestments.API
 
             services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
 
+            services.AddSingleton<ILoggerRepo, LoggerService>();
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo() { Title = "StockInvestments API", Version = "v1" });
@@ -126,6 +141,7 @@ namespace StockInvestments.API
                 //Set xml path
                 options.IncludeXmlComments(xmlPath);
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -154,7 +170,13 @@ namespace StockInvestments.API
                         await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
                     });
                 });
+
+               // app.UseExceptionHandler("/error");
             }
+
+            app.UseResponseCaching();
+
+            app.UseHttpCacheHeaders();
 
             app.UseHttpsRedirection();
 

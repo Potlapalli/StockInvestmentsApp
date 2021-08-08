@@ -246,13 +246,15 @@
             CurrentPositionsController
             </summary>
         </member>
-        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{StockInvestments.API.Controllers.CurrentPositionsController},StockInvestments.API.Contracts.IPropertyCheckerService)">
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.#ctor(StockInvestments.API.Contracts.ICurrentPositionsRepository,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{StockInvestments.API.Controllers.CurrentPositionsController},StockInvestments.API.Contracts.ILoggerRepo,StockInvestments.API.Contracts.IPropertyCheckerService)">
             <summary>
             
             </summary>
             <param name="currentPositionsRepository"></param>
             <param name="mapper"></param>
             <param name="logger"></param>
+            <param name="loggerRepo"></param>
+            <param name="propertyCheckerService"></param>
         </member>
         <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPositions">
             <summary>

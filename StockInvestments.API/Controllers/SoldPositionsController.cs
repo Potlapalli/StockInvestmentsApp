@@ -22,6 +22,7 @@ namespace StockInvestments.API.Controllers
     /// </summary>
     [Route("api/currentPositions/{ticker}/soldPositions")]
     [ApiController]
+    //[ResponseCache(CacheProfileName = "240SecondsCacheProfile")]
     public class SoldPositionsController : ControllerBase
     {
         private readonly ICurrentPositionsRepository _currentPositionsRepository;
