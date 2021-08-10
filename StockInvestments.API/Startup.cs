@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
 using StockInvestments.API.Contracts;
 using StockInvestments.API.Services;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace StockInvestments.API
 {
@@ -112,6 +114,18 @@ namespace StockInvestments.API
                         };
                     };
                 });
+
+            services.Configure<MvcOptions>(config =>
+            {
+                var newtonsoftJsonOutputFormatter = config.OutputFormatters.
+                OfType<NewtonsoftJsonOutputFormatter>()?.FirstOrDefault();
+
+                if(newtonsoftJsonOutputFormatter != null)
+                {
+                    newtonsoftJsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.marvin.hateoas+json");
+                }
+            });
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

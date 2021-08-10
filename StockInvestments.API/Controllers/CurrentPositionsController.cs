@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using StockInvestments.API.Contracts;
 using StockInvestments.API.Entities;
 using StockInvestments.API.Helpers;
@@ -108,10 +109,16 @@ namespace StockInvestments.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         //[ResponseCache(Duration = 120)]
-        public ActionResult<CurrentPositionDto> /*IActionResult */ GetCurrentPosition(string ticker, string fields)
+        public ActionResult<CurrentPositionDto> GetCurrentPosition(string ticker, string fields, 
+            [FromHeader(Name = "Accept")] string mediaType)
         {
             if (string.IsNullOrEmpty(ticker))
                 return BadRequest("Invalid ticker");
+
+            if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue parsedMediaType))
+            {
+                return BadRequest();
+            }
 
             if (!_propertyCheckerService.TypeHasProperties<CurrentPositionDto>(fields))
             {
@@ -122,16 +129,23 @@ namespace StockInvestments.API.Controllers
             if (currentPositionFromRepo == null)
                 return NotFound("Current Position couldn't be found.");
 
-            var links = CreateLinksForCurrentPosition(ticker, fields);
 
-            var linkedResourceToReturn = _mapper.Map<CurrentPositionDto>(currentPositionFromRepo).ShapeData(fields)
-                as IDictionary<string, object>;
+            _loggerRepo.LogDebug("Get is Successful");
 
-             linkedResourceToReturn.Add("links", links);
+            if (parsedMediaType.MediaType == "application/vnd.marvin.hateoas+json")
+            {
+                var links = CreateLinksForCurrentPosition(ticker, fields);
 
-             _loggerRepo.LogDebug("Get is Successful");
+                var linkedResourceToReturn = _mapper.Map<CurrentPositionDto>(currentPositionFromRepo).ShapeData(fields)
+                    as IDictionary<string, object>;
 
-            return Ok(linkedResourceToReturn); 
+                linkedResourceToReturn.Add("links", links);
+
+                return Ok(linkedResourceToReturn);
+            }
+
+            return Ok(_mapper.Map<CurrentPositionDto>(currentPositionFromRepo).ShapeData(fields));
+
         }
 
         /// <summary>
