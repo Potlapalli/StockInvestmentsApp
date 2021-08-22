@@ -272,7 +272,7 @@
             <returns>CurrentPositionsFilteredByTotalAmount</returns>
             <response code="200">Returns list of CurrentPositions filtered by total amount</response>
         </member>
-        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPosition(System.String,System.String)">
+        <member name="M:StockInvestments.API.Controllers.CurrentPositionsController.GetCurrentPosition(System.String,System.String,System.String)">
             <summary>
             GetCurrentPosition
             </summary>
