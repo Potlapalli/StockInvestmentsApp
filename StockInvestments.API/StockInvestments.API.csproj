@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UserSecretsId>717a0e3b-c517-4376-ad2a-3b202c8332c3</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\StockInvestmentsAPI\StockInvestments.API\StockInvestments.API\StockInvestments.API.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\StockInvestments.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
