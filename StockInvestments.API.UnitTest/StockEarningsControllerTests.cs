@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -42,7 +43,7 @@ namespace StockInvestments.API.UnitTest
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
             var value = result.Value as List<StockEarningDto>;
             Assert.AreEqual(2, value?.Count);
         }
@@ -60,7 +61,7 @@ namespace StockInvestments.API.UnitTest
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.OK, result.StatusCode);
             var value = result.Value as StockEarningDto;
             Assert.IsNotNull(value);
             Assert.AreEqual("XXX", value.Ticker);
@@ -75,7 +76,7 @@ namespace StockInvestments.API.UnitTest
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(400, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Test]
@@ -87,7 +88,40 @@ namespace StockInvestments.API.UnitTest
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(404, result.StatusCode);
+            Assert.AreEqual((int)HttpStatusCode.NotFound, result.StatusCode);
+        }
+
+        [Test]
+        public void CreateStockEarningTest_ValidRequest()
+        {
+            
+            //Act
+            ActionResult<StockEarningDto> stockEarning = _stockEarningsController.CreateStockEarning(
+                new StockEarningForCreationDto(){Ticker = "XXX"});
+            var result = stockEarning.Result as CreatedAtRouteResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.Created, result.StatusCode);
+            Assert.AreEqual("GetStockEarning", result.RouteName);
+            Assert.AreEqual("XXX", result.RouteValues["ticker"]);
+        }
+
+        [Test]
+        public void UpdateStockEarningTest_ValidRequest()
+        {
+            //Arrange
+            _stockEarningsRepositoryMock.Setup(x => x.GetStockEarning("XXX"))
+                .Returns(new StockEarning { Ticker = "XXX" });
+
+            //Act
+            ActionResult<StockEarningDto> stockEarning = _stockEarningsController.UpdateStockEarning( "XXX",
+                new StockEarningForUpdateDto() {Company = "XXX"});
+            var result = stockEarning.Result as NoContentResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual((int)HttpStatusCode.NoContent, result.StatusCode);
         }
     }
 }
