@@ -10,17 +10,14 @@ namespace StockInvestments.API.Services
     /// <summary>
     /// 
     /// </summary>
-    public class SoldPositionsRepository : ISoldPositionsRepository
+    public class SoldPositionsRepository : RepositoryBase<SoldPosition> , ISoldPositionsRepository
     {
-        private readonly StockInvestmentsContext _stockInvestmentsContext;
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public SoldPositionsRepository(StockInvestmentsContext context)
+        public SoldPositionsRepository(StockInvestmentsContext context) : base(context)
         {
-            _stockInvestmentsContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IEnumerable<SoldPosition> GetSoldPositions()
@@ -70,11 +67,6 @@ namespace StockInvestments.API.Services
             return _stockInvestmentsContext.SoldPositions.FirstOrDefault(sp => sp.Ticker == ticker && sp.Number == number);
         }
 
-        public void Add(SoldPosition soldPosition)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Add(string ticker, SoldPosition soldPosition)
         {
             if (soldPosition == null)
@@ -83,21 +75,6 @@ namespace StockInvestments.API.Services
             }
             soldPosition.Ticker = ticker;
             _stockInvestmentsContext.SoldPositions.Add(soldPosition);
-        }
-
-        public void Update(SoldPosition dbSoldPosition)
-        {
-          // no code in this implementation
-        }
-
-        public void Delete(SoldPosition soldPosition)
-        {
-            _stockInvestmentsContext.SoldPositions.Remove(soldPosition);
-        }
-
-        public bool Save()
-        {
-            return (_stockInvestmentsContext.SaveChanges() >= 0);
         }
     }
 }

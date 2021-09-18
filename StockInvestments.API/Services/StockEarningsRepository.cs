@@ -7,13 +7,10 @@ using StockInvestments.API.Entities;
 
 namespace StockInvestments.API.Services
 {
-    public class StockEarningsRepository : IStockEarningsRepository
+    public class StockEarningsRepository : RepositoryBase<StockEarning> , IStockEarningsRepository
     {
-        private readonly StockInvestmentsContext _stockInvestmentsContext;
-
-        public StockEarningsRepository(StockInvestmentsContext context)
+        public StockEarningsRepository(StockInvestmentsContext context) : base(context)
         {
-            _stockInvestmentsContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IEnumerable<StockEarning> GetStockEarnings()
@@ -31,28 +28,5 @@ namespace StockInvestments.API.Services
             return _stockInvestmentsContext.StockEarnings.FirstOrDefault(se => se.Ticker == ticker);
         }
 
-        public void Add(StockEarning stockEarning)
-        {
-            if (stockEarning == null)
-            {
-                throw new ArgumentNullException(nameof(stockEarning));
-            }
-            _stockInvestmentsContext.StockEarnings.Add(stockEarning);
-        }
-
-        public void Update(StockEarning dbStockEarning)
-        {
-            // no code in this implementation
-        }
-
-        public void Delete(StockEarning stockEarning)
-        {
-            _stockInvestmentsContext.StockEarnings.Remove(stockEarning);
-        }
-
-        public bool Save()
-        {
-            return (_stockInvestmentsContext.SaveChanges() >= 0);
-        }
     }
 }

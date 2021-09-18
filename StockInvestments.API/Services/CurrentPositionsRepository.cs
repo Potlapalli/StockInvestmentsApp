@@ -8,13 +8,10 @@ using StockInvestments.API.Entities;
 
 namespace StockInvestments.API.Services
 {
-    public class CurrentPositionsRepository : ICurrentPositionsRepository
+    public class CurrentPositionsRepository : RepositoryBase<CurrentPosition> , ICurrentPositionsRepository
     {
-        private readonly StockInvestmentsContext _stockInvestmentsContext;
-
-        public CurrentPositionsRepository(StockInvestmentsContext context)
+        public CurrentPositionsRepository(StockInvestmentsContext context) : base(context)
         {
-            _stockInvestmentsContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IEnumerable<CurrentPosition> GetCurrentPositions()
@@ -38,33 +35,9 @@ namespace StockInvestments.API.Services
                 Include(x => x.SoldPositions).FirstOrDefault(cp => cp.Ticker == ticker);
         }
 
-        public void Add(CurrentPosition currentPosition)
-        {
-            if (currentPosition == null)
-            {
-                throw new ArgumentNullException(nameof(currentPosition));
-            }
-            _stockInvestmentsContext.CurrentPositions.Add(currentPosition);
-        }
-
-        public void Update(CurrentPosition dbCurrentPosition)
-        {
-            // no code in this implementation
-        }
-
-        public void Delete(CurrentPosition currentPosition)
-        {
-            _stockInvestmentsContext.CurrentPositions.Remove(currentPosition);
-        }
-
         public bool CurrentPositionExists(string ticker)
         {
             return _stockInvestmentsContext.CurrentPositions.Any(cp => cp.Ticker == ticker);
-        }
-
-        public bool Save()
-        {
-            return (_stockInvestmentsContext.SaveChanges() >= 0);
         }
     }
 }

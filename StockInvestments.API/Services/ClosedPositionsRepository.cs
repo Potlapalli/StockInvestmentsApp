@@ -7,13 +7,11 @@ using StockInvestments.API.Entities;
 
 namespace StockInvestments.API.Services
 {
-    public class ClosedPositionsRepository : IClosedPositionsRepository
+    public class ClosedPositionsRepository : RepositoryBase<ClosedPosition>, IClosedPositionsRepository
     {
-        private readonly StockInvestmentsContext _stockInvestmentsContext;
 
-        public ClosedPositionsRepository(StockInvestmentsContext context)
+        public ClosedPositionsRepository(StockInvestmentsContext context) : base(context)
         {
-            _stockInvestmentsContext = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IEnumerable<ClosedPosition> GetClosedPositions()
@@ -29,31 +27,6 @@ namespace StockInvestments.API.Services
         public ClosedPosition GetClosedPosition(string ticker)
         {
             return _stockInvestmentsContext.ClosedPositions.FirstOrDefault(cp => cp.Ticker == ticker);
-        }
-
-        public void Add(ClosedPosition closedPosition)
-        {
-            if (closedPosition == null)
-            {
-                throw new ArgumentNullException(nameof(closedPosition));
-            }
-            _stockInvestmentsContext.ClosedPositions.Add(closedPosition);
-        }
-
-        public void Update(ClosedPosition dbClosedPosition)
-        {
-            // no code in this implementation
-
-        }
-
-        public void Delete(ClosedPosition closedPosition)
-        {
-            _stockInvestmentsContext.ClosedPositions.Remove(closedPosition);
-        }
-
-        public bool Save()
-        {
-            return (_stockInvestmentsContext.SaveChanges() >= 0);
         }
     }
 }
