@@ -144,6 +144,15 @@ namespace StockInvestments.API
 
             services.AddSingleton<ILoggerRepo, LoggerService>();
 
+            services.AddApplicationInsightsTelemetry();
+
+            services.AddCors(options => options.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+            }));
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo() { Title = "StockInvestments API", Version = "v1" });
@@ -195,6 +204,8 @@ namespace StockInvestments.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 

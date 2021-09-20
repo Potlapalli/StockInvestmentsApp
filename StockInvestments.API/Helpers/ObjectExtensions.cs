@@ -7,8 +7,19 @@ using System.Threading.Tasks;
 
 namespace StockInvestments.API.Helpers
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ObjectExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public static ExpandoObject ShapeData<TSource>(
             this TSource source,
             string fields)
